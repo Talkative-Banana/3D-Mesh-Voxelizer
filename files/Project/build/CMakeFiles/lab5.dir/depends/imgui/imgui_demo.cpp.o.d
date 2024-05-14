@@ -1,8 +1,8 @@
 CMakeFiles/lab5.dir/depends/imgui/imgui_demo.cpp.o: \
- /home/lucky/Computer_Graphics/Project\ (4th\ copy)/files/Project/depends/imgui/imgui_demo.cpp \
+ /home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui_demo.cpp \
  /usr/include/stdc-predef.h \
- /home/lucky/Computer_Graphics/Project\ (4th\ copy)/files/Project/depends/imgui/imgui.h \
- /home/lucky/Computer_Graphics/Project\ (4th\ copy)/files/Project/depends/imgui/imconfig.h \
+ /home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui.h \
+ /home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imconfig.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/float.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h /usr/include/string.h \

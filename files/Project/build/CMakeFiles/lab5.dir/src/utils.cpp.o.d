@@ -1,7 +1,7 @@
 CMakeFiles/lab5.dir/src/utils.cpp.o: \
- /home/lucky/Computer_Graphics/Project\ (4th\ copy)/files/Project/src/utils.cpp \
+ /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/utils.cpp \
  /usr/include/stdc-predef.h \
- /home/lucky/Computer_Graphics/Project\ (4th\ copy)/files/Project/src/utils.h \
+ /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/utils.h \
  /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -355,10 +355,10 @@ CMakeFiles/lab5.dir/src/utils.cpp.o: \
  /usr/include/glm/gtx/dual_quaternion.hpp \
  /usr/include/glm/gtx/dual_quaternion.inl \
  /usr/include/glm/gtx/string_cast.inl /usr/include/c++/11/cstdarg \
- /home/lucky/Computer_Graphics/Project\ (4th\ copy)/files/Project/depends/imgui/imgui.h \
- /home/lucky/Computer_Graphics/Project\ (4th\ copy)/files/Project/depends/imgui/imconfig.h \
- /home/lucky/Computer_Graphics/Project\ (4th\ copy)/files/Project/depends/imgui/imgui_impl_glfw.h \
- /home/lucky/Computer_Graphics/Project\ (4th\ copy)/files/Project/depends/imgui/imgui_impl_opengl3.h \
+ /home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui.h \
+ /home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imconfig.h \
+ /home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui_impl_glfw.h \
+ /home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui_impl_opengl3.h \
  /usr/include/glm/gtx/rotate_vector.hpp \
  /usr/include/glm/gtx/transform.hpp /usr/include/glm/gtx/transform.inl \
  /usr/include/glm/gtx/rotate_vector.inl \

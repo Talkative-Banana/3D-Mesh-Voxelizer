@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I"/home/lucky/Computer_Graphics/Project (4th copy)/files/Project/src" -I"/home/lucky/Computer_Graphics/Project (4th copy)/files/Project/depends/imgui"
+CXX_INCLUDES = -I/home/lucky/Computer_Graphics/Project_GitHub/files/Project/src -I/home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui
 
 CXX_FLAGS = -g
 

@@ -10,16 +10,16 @@
 // uniform int numRenderTargets;
 
 // Globals
-int screen_width = 2240, screen_height = 1400;
-float dim = 128.0;
+int screen_width = 1000, screen_height = 1000;
+float dim = 128;
 GLint vModel_uniform, vView_uniform, vProjection_uniform;
-GLint halfPxsize_uniform, color_uniform;
+GLint halfPxsize_uniform, color_uniform, voxel_dim_uniform;
 glm::mat4 modelT, viewT,
     projectionT; // The model, view and projection transformations
-GLint voxel_dim = 1, Box_xl, Box_xu, Box_yl, Box_yu, Box_zl, Box_zu,
+// TODO:
+GLint voxel_dim = 2, Box_xl, Box_xu, Box_yl, Box_yu, Box_zl, Box_zu,
       voxel_count;
-vector<vector<vector<bool>>>
-    Grid(dim, vector<vector<bool>>(dim, vector<bool>(dim, false)));
+vector<vector<vector<bool>>> Grid;
 GLint voxel_countx, voxel_county, voxel_countz;
 glm::vec4 color = glm::vec4(0.0, 0.0, 0.0, 0.0);
 
@@ -74,13 +74,21 @@ int main() {
     fprintf(stderr, "Could not bind location: color.\n");
   }
 
+  voxel_dim_uniform = glGetUniformLocation(shaderProgram2, "voxel_dim");
+  if (voxel_dim_uniform == -1) {
+    fprintf(stderr, "Could not bind location voxel_dim.\n");
+  }
+
+  glUseProgram(shaderProgram2);
+  // TODO:
+  glUniform1f(voxel_dim_uniform, 1.0f);
   int vPoint_attrib = glGetAttribLocation(shaderProgram2, "vPoint");
   if (vPoint_attrib == -1) {
     fprintf(stderr, "Could not bind location: vPoint\n");
-    exit(0);
   }
 
   glUseProgram(shaderProgram);
+  // TODO:
   glUniform2f(halfPxsize_uniform, 0.5 / dim, 0.5 / dim);
 
   oldX = oldY = currentX = currentY = 0.0;
@@ -111,34 +119,28 @@ int main() {
     // Get key presses
     if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_LeftArrow))) {
       strcpy(textKeyStatus, "Key status: Left");
-      // TODO:
       change.x += speed;
     } else if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_RightArrow))) {
       strcpy(textKeyStatus, "Key status: Right");
-      // TODO:
       change.x -= speed;
     } else if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_UpArrow))) {
       if (io.KeyShift) {
         strcpy(textKeyStatus, "Key status: Shift + Up");
-        // TODO:
         change.z -= speed;
         // Nplane -= speed; // going away
         // Fplane = Nplane - 1;
       } else {
         strcpy(textKeyStatus, "Key status: Up");
-        // TODO:
         change.y += speed;
       }
     } else if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_DownArrow))) {
       if (io.KeyShift) {
         strcpy(textKeyStatus, "Key status: Shift + Down");
-        // TODO:
         change.z += speed;
         // Nplane += speed;
         // Fplane = Nplane - 1;
       } else {
         strcpy(textKeyStatus, "Key status: Down");
-        // TODO:
         change.y -= speed;
       }
     } else if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_Z))) {
@@ -174,7 +176,7 @@ int main() {
         }
       }
     } else if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_C))) {
-      strcpy(textKeyStatus, "Key status: Z");
+      strcpy(textKeyStatus, "Key status: C");
       mode_ = (mode_ + 1) % 4;
       mesh = true;
     } else {
@@ -211,7 +213,7 @@ int main() {
       mesh = false;
 
       // shaderProgram2 = createProgram("./shaders/vshadervis.vs",
-      // "./shaders/fshadervis.fs"); -254.5 to 255.5
+      // "./shaders/fshadervis.fs"); -64.5 to 62.5 (65 on left 63 on right)
       point_vertices.clear();
       for (int i = 0; i < (int)dim; i++) {
         for (int j = 0; j < (int)dim; j++) {
@@ -219,7 +221,7 @@ int main() {
             if (Grid[i][j][k]) {
               glm::vec3 temp =
                   glm::vec3(i - ((dim + 1) / 2), j - ((dim + 1) / 2),
-                            k - ((dim + 1) / 2));
+                            k - ((dim + 1) / 2)); // TODO:
               point_vertices.push_back(temp);
             }
           }
@@ -614,7 +616,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
   vector<glm::vec3> temp_normals;
   int ct = 0;
 
-  scale = 0.8; // Change Scale of the model as needed
+  scale = 1.0; // Change Scale of the model as needed
   FILE *file = fopen("src/bunny.obj", "r");
   if (file == NULL)
     printf("File not found\n");
@@ -704,12 +706,14 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
   }
 
   // printf("%d %d %d   %d %d %d\n", Box_xl, Box_yl, Box_zl, Box_xu, Box_yu,
-  // Box_zu);
-  voxel_countx = Box_xu - Box_xl;
-  voxel_county = Box_yu - Box_yl;
-  voxel_countz = Box_zu - Box_zl;
-  voxel_count = voxel_countx * voxel_county * voxel_countz;
-  // cout << Box_zl << " " << Box_zu << endl;
+  // Box_zu);;
+  int BBoxDim =
+      32 *
+      ceil(max(Box_xu - Box_xl, max(Box_yu - Box_yl, Box_zu - Box_zl)) / 32.0);
+  voxel_count = BBoxDim * BBoxDim * BBoxDim;
+  dim = BBoxDim / voxel_dim;
+  cout << "Dimension of Grid: " << dim << endl;
+  Grid.resize(dim, vector<vector<bool>>(dim, vector<bool>(dim, false)));
   // printf("%d\n", voxel_count);
 
   // generated normals for the triangle mesh
@@ -825,14 +829,13 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
   }
 
   if (mode_ == 1) {
-    cout << "Rendering Along Z axis\n";
-    BatchRender("z");
-  } else if (mode_ == 2) {
     cout << "Rendering Along X axis\n";
     BatchRender("x");
+  } else if (mode_ == 2) {
+    cout << "Rendering Along Y axis\n";
+    BatchRender("y");
   } else if (mode_ == 3) {
-    cout << "Rendering Along X and Z axis\n";
-    BatchRender("x");
+    cout << "Rendering Along Z axis\n";
     BatchRender("z");
   } else {
     cout << "Rendering Along X, Y and Z axis\n";

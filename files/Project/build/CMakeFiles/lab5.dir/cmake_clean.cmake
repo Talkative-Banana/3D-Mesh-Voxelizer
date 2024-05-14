@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/lucky/Computer_Graphics/Project (4th copy)/files/Project/lab5"
-  "/home/lucky/Computer_Graphics/Project (4th copy)/files/Project/lab5.pdb"
+  "/home/lucky/Computer_Graphics/Project_GitHub/files/Project/lab5"
+  "/home/lucky/Computer_Graphics/Project_GitHub/files/Project/lab5.pdb"
   "CMakeFiles/lab5.dir/depends/imgui/imgui.cpp.o"
   "CMakeFiles/lab5.dir/depends/imgui/imgui.cpp.o.d"
   "CMakeFiles/lab5.dir/depends/imgui/imgui_demo.cpp.o"
