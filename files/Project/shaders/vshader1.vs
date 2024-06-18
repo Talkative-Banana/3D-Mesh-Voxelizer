@@ -7,6 +7,6 @@ uniform mat4 vView;
 uniform mat4 vProjection;
 
 
-void main() {
+void main() {	
 	gl_Position = vec4(vVertex, 1.0);
 }

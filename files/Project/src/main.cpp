@@ -11,14 +11,12 @@
 
 // Globals
 int screen_width = 1000, screen_height = 1000;
-float dim = 128;
+float dim = 1024;
 GLint vModel_uniform, vView_uniform, vProjection_uniform;
 GLint halfPxsize_uniform, color_uniform, voxel_dim_uniform;
-glm::mat4 modelT, viewT,
-    projectionT; // The model, view and projection transformations
+glm::mat4 modelT, viewT, projectionT; // The model, view and projection transformations
 // TODO:
-GLint voxel_dim = 2, Box_xl, Box_xu, Box_yl, Box_yu, Box_zl, Box_zu,
-      voxel_count;
+GLint voxel_dim = 2, Box_xl, Box_xu, Box_yl, Box_yu, Box_zl, Box_zu, voxel_count;
 vector<vector<vector<bool>>> Grid;
 GLint voxel_countx, voxel_county, voxel_countz;
 glm::vec4 color = glm::vec4(0.0, 0.0, 0.0, 0.0);
@@ -148,7 +146,7 @@ int main() {
         strcpy(textKeyStatus, "Key status: Ctrl + z");
         // Move camera to [0, 0, 100] i.e. => along z axis
         if (!Perspective || Perspective) {
-          camPosition = {0.0f, 0.0f, 100.0f, 1.0f};
+          camPosition = {0.0f, 0.0f, -100.0f, 1.0f};
         }
       } else {
         strcpy(textKeyStatus, "Key status: z");
@@ -159,7 +157,7 @@ int main() {
         strcpy(textKeyStatus, "Key status: Ctrl + x");
         // Move camera to [100, 0, 0] i.e. => along x axis
         if (!Perspective || Perspective) {
-          camPosition = {100.0f, 0.0f, 0.0f, 1.0f};
+          camPosition = {-100.0f, 0.0f, 0.0f, 1.0f};
         }
       } else {
         strcpy(textKeyStatus, "Key status: x");
@@ -172,7 +170,7 @@ int main() {
         // rolling gaze direction shouldn't be parallel to y) So Moved with some
         // offset
         if (!Perspective || Perspective) {
-          camPosition = {0.0f, 100.0f, 0.20f, 1.0f};
+          camPosition = {0.0f, -100.0f, 0.20f, 1.0f};
         }
       }
     } else if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_C))) {
@@ -190,13 +188,10 @@ int main() {
 
     // ImGui UI menu
     ImGui::Begin("Main", NULL, ImGuiWindowFlags_AlwaysAutoResize);
-    if (ImGui::CollapsingHeader("Information",
-                                ImGuiTreeNodeFlags_DefaultOpen)) {
-      ImGui::Text("%.3f ms/frame (%.1f FPS)",
-                  1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    if (ImGui::CollapsingHeader("Information", ImGuiTreeNodeFlags_DefaultOpen)) {
+      ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
       ImGui::Text("%s", textKeyStatus);
-      ImGui::Text("Camera position: (%.2f, %.2f, %.2f)", camPosition.x,
-                  camPosition.y, camPosition.z);
+      ImGui::Text("Camera position: (%.2f, %.2f, %.2f)", camPosition.x, camPosition.y, camPosition.z);
       ImGui::Text("mode: (%d)", mode_);
     }
     ImGui::End();
@@ -220,8 +215,7 @@ int main() {
           for (int k = 0; k < (int)dim; k++) {
             if (Grid[i][j][k]) {
               glm::vec3 temp =
-                  glm::vec3(i - ((dim + 1) / 2), j - ((dim + 1) / 2),
-                            k - ((dim + 1) / 2)); // TODO:
+                  glm::vec3(i - ((dim + 1) / 2), j - ((dim + 1) / 2), k - ((dim + 1) / 2)); // TODO:
               point_vertices.push_back(temp);
             }
           }
@@ -270,9 +264,8 @@ int main() {
     glVertexAttribPointer(vPoint_attrib, 3, GL_FLOAT, GL_FALSE, 00, 0);
     // delete []Vertex;
 
-    glViewport(0, 0, 1000,
-               1000); // Render on the whole framebuffer, complete from the
-                      // lower left corner to the upper right
+    glViewport(0, 0, 1000, 1000); // Render on the whole framebuffer, complete from the
+    // lower left corner to the upper right
     glBindVertexArray(VAO2);
 
     // // Visualize();
@@ -391,8 +384,7 @@ void setupModelTransformation(unsigned int &program) {
 void setupViewTransformation(unsigned int &program) {
   // Viewing transformations (World -> Camera coordinates
   // Camera at (40, 20, 40)  in a right handed coordinate system
-  viewT = glm::lookAt(glm::vec3(camPosition), glm::vec3(0.0, 0.0, 0.0),
-                      glm::vec3(0.0, 1.0, 0.0));
+  viewT = glm::lookAt(glm::vec3(camPosition), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 
   // Pass-on the viewing matrix to the vertex shader
   glUseProgram(program);
@@ -408,10 +400,9 @@ void setupProjectionTransformation(unsigned int &program) {
   // Projection transformation
   //  mesh = true;
   if (mesh) {
-    projectionT = glm::ortho(-255.0f, 256.0f, -255.0f, 256.0f, Nplane, Fplane);
+    projectionT = glm::ortho(-dim, dim, -dim, dim, Nplane, Fplane);
   } else {
-    projectionT = glm::perspective(
-        45.0f, (GLfloat)screen_width / (GLfloat)screen_height, 0.1f, 1000.0f);
+    projectionT = glm::perspective(45.0f, (GLfloat)screen_width / (GLfloat)screen_height, 0.1f, 1000.0f);
   }
   // mesh = false;
   // projectionT = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, 12.0f, 13.0f);
@@ -423,8 +414,7 @@ void setupProjectionTransformation(unsigned int &program) {
     fprintf(stderr, "Could not bind location: vProjection\n");
     exit(0);
   }
-  glUniformMatrix4fv(vProjection_uniform, 1, GL_FALSE,
-                     glm::value_ptr(projectionT));
+  glUniformMatrix4fv(vProjection_uniform, 1, GL_FALSE,glm::value_ptr(projectionT));
 }
 
 glm::vec3 getTrackBallVector(double x, double y) {
@@ -448,15 +438,13 @@ void saveTextureToFile(const std::string &filename, int width, int height) {
   stbi_write_png(filename.c_str(), width, height, 4, pixels.data(), 0);
 }
 
-void Rasterize(char dir, vector<glm::vec3> &bucket, GLfloat *buc,
-               unsigned int &shape_VAO, int vVertex_attrib) {
+void Rasterize(char dir, vector<glm::vec3> &bucket, GLfloat *buc, unsigned int &shape_VAO, int vVertex_attrib) {
   int slabs = ceil((double)dim / (double)32);
-
   unsigned int sheetbuffer;
 
-  camPosition = (dir == 'x')   ? glm::vec4(-100.0f, 0.0f, 0.0f, 1.0f)
-                : (dir == 'y') ? glm::vec4(0.0f, -100.0f, 0.00001f, 1.0f)
-                               : glm::vec4(0.0f, 0.0f, 100.0f, 1.0f);
+  camPosition = (dir == 'x') ? glm::vec4(-1000.0f, 0.0f, 0.0f, 1.0f)
+              : (dir == 'y') ? glm::vec4(0.0f, -1000.0f, 0.0001f, 1.0f)
+                             : glm::vec4(0.0f, 0.0f, -1000.0f, 1.0f);
   setupViewTransformation(shaderProgram);
 
   // Generate VAO object
@@ -467,26 +455,27 @@ void Rasterize(char dir, vector<glm::vec3> &bucket, GLfloat *buc,
   GLuint vertex_VBO; // Vertex Buffer
   glGenBuffers(1, &vertex_VBO);
   glBindBuffer(GL_ARRAY_BUFFER, vertex_VBO);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * bucket.size() * 3, buc,
-               GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * bucket.size() * 3, buc, GL_STATIC_DRAW);
   // glBufferData(GL_FRAMEBUFFER, sizeof(GLfloat)*vertex_indices.size()*3,
   // shape_vertices, GL_STATIC_DRAW);
   glEnableVertexAttribArray(vVertex_attrib);
   glVertexAttribPointer(vVertex_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
   // -100 340
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_ONE, GL_ONE);
 
+  // The framebuffer, which regroups 0, 1, or more textures, and 0 or 1 depth
+  // buffer.
+  GLuint FramebufferName = 1;
+  glGenFramebuffers(1, &FramebufferName);
+  glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
+
+  int offset = dir == 'x' ? Box_xu - dim * voxel_dim : dir == 'y' ? Box_yu - dim * voxel_dim : Box_zu - dim * voxel_dim;
   for (int slab = 1; slab <= slabs; slab++) {
-    int slab_len = dim, slab_wid = dim, slab_dep = 32;
-    int nplane = -100 + 32 * (slab - 1);
-    int fplane = nplane - slab_dep;
-    Nplane = nplane, Fplane = fplane;
-    setupProjectionTransformation(shaderProgram);
-
-    // The framebuffer, which regroups 0, 1, or more textures, and 0 or 1 depth
-    // buffer.
-    GLuint FramebufferName = 1;
-    glGenFramebuffers(1, &FramebufferName);
-    glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
+    int slab_len = dim, slab_wid = dim, slab_dep = 32 * voxel_dim;
+    // int nplane = offset + 32 * voxel_dim * (slab - 1);
+    int SrtPlane = 1000 - abs(offset) + (slab_dep * (slab - 1));
+    int EndPlane = SrtPlane + (slabs * slab_dep) - (slab_dep * (slab - 1)); // const
 
     tex_name = "./textures/" + to_string(slab) + dir;
     // The texture we're going to render to
@@ -496,16 +485,14 @@ void Rasterize(char dir, vector<glm::vec3> &bucket, GLfloat *buc,
     // modify this texture
     glBindTexture(GL_TEXTURE_2D, renderedTexture);
     // Give an empty image to OpenGL ( the last "0" )
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, dim, dim, 0, GL_RGBA,
-                 GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, dim, dim, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     // Poor filtering. Needed !
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glBindTexture(GL_TEXTURE_2D, 0);
 
     // Set "renderedTexture" as our colour attachement #0
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
-                           renderedTexture, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
 
     // // Set the list of draw buffers.
     // GLenum DrawBuffers[1] = {GL_COLOR_ATTACHMENT0};
@@ -518,47 +505,51 @@ void Rasterize(char dir, vector<glm::vec3> &bucket, GLfloat *buc,
     }
 
     // Render to our framebuffer
-
+    // from the lower left corner to the upper right
     glViewport(0, 0, dim, dim); // Render on the whole framebuffer, complete
-                                // from the lower left corner to the upper right
 
     glBindVertexArray(shape_VAO);
+
     int count = 0;
-    for (int Fplane = nplane - 1; Fplane >= fplane; Fplane--) {
-      Nplane = Fplane + 1;
+    for (Fplane = SrtPlane + voxel_dim; Fplane <= SrtPlane + slab_dep; Fplane += voxel_dim) {
+      Nplane = Fplane - voxel_dim;
+      setupProjectionTransformation(shaderProgram);
       // 32 total
       // first 8 will go in R
       // then  8 will go in G
       // and so on... for B and A
       // 1 1 1 1 1 1 1 1
       if (count < 8) {
-        glUniform2f(color_uniform, 0.0, count);
+        glUniform2f(color_uniform, 0.0, pow(2, floor(8 - count)) / 256.0);
       } else if (count < 16) {
-        glUniform2f(color_uniform, 1.0, count - 8);
+        glUniform2f(color_uniform, 1.0, pow(2, floor(16 - count)) / 256.0);
       } else if (count < 24) {
-        glUniform2f(color_uniform, 2.0, count - 16);
+        glUniform2f(color_uniform, 2.0, pow(2, floor(24 - count)) / 256.0);
       } else {
-        glUniform2f(color_uniform, 3.0, count - 24);
+        glUniform2f(color_uniform, 3.0, pow(2, floor(32 - count)) / 256.0);
       }
-      glDrawArrays(GL_TRIANGLES, 0, bucket.size() * 3);
+      glDrawArrays(GL_TRIANGLES, 0, bucket.size() * 3); 
       count++;
     }
     saveTextureToFile(tex_name, dim, dim);
-
     glClear(GL_COLOR_BUFFER_BIT);
     glDeleteTextures(1, &renderedTexture);
-    glDeleteFramebuffers(1, &FramebufferName);
   }
+    // Unbind Frame Buffer
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    // Delete Frame Buffer
+    glDeleteFramebuffers(1, &FramebufferName);
+    glDisable(GL_BLEND);
 }
 
 void BatchRender(string dir) {
-  for (int slab = 1; slab <= dim / 32; slab++) {
+  int slabs = ceil((double)dim / (double)32);
+  for (int slab = 1; slab <= slabs; slab++) {
     tex_name = "./textures/" + to_string(slab) + dir;
     int loadlen = dim, loadbre = dim, loadch = 4;
     const int textureSize = loadlen * loadbre;
     // stbi_set_flip_vertically_on_load(true);
-    unsigned char *data =
-        stbi_load(tex_name.c_str(), &loadlen, &loadbre, &loadch, 4);
+    unsigned char *data = stbi_load(tex_name.c_str(), &loadlen, &loadbre, &loadch, 4);
     if (data) {
       unsigned bytePerPixel = 4;
       for (int i = 0; i < loadlen; i++) {
@@ -568,19 +559,32 @@ void BatchRender(string dir) {
           int g = pixelOffset[1];
           int b = pixelOffset[2];
           int a = pixelOffset[3];
-          if (r != 0 || g != 0 || b != 0 || a != 0) {
-            // printf("%d %d %d %d \n", r, g, b, a);
+          if ((r != 0) || (g != 0) || (b != 0) || (a != 0)) {
             // On Z axis L yx
             // On X axis L zy
             // On Y axis L xz
+            // (l .) (m <-) n (up)
+            // Grid (viewed from -x axis)
+            // ^ <- (-k (left))
+            // |    (+j)(up)
+            // x    (+i (in screen))
+            // For X
+            // ->|  (+k (right))
+            //   v  (-j (down))
+            //   x  (+i (in screen))
+            // For Z
+            // ^    (+j (up))
+            // <-   (+i (left))
+            // x    (+k (in screen))
             int l, m, n;
             for (int k = 0; k < 32; k++) {
               if (dir == "z")
-                l = i, m = j, n = 16 * (slab - 1) + k;
+                l = i, m = j, n = 32 * (slabs - slab) + (32 - k - 1);
               else if (dir == "x")
-                l = 16 * (slab - 1) + k, m = j, n = i;
+                l = 32 * (slabs - slab) + (32 - k - 1), m = j, n = loadlen - i - 1;
               else
-                l = i, m = 16 * (slab - 1) + k, n = j;
+                l = loadlen - i - 1, m = 32 * (slab - 1) + k, n = loadlen - 1 - j;
+
               if (k < 8) {
                 if ((r >> k) & 1) {
                   Grid[l][m][n] = true;
@@ -696,7 +700,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
     shape_vertices[i * 3 + 2] = temp_vertices[vertexIndex - 1][2] * scale;
 
     Box_xl = std::min((GLint)(std::floor(shape_vertices[i * 3])), Box_xl);
-    Box_xu = std::max((GLint)std::ceil(shape_vertices[i * 3]), Box_xl);
+    Box_xu = std::max((GLint)std::ceil(shape_vertices[i * 3]), Box_xu);
 
     Box_yl = std::min((GLint)std::floor(shape_vertices[i * 3 + 1]), Box_yl);
     Box_yu = std::max((GLint)std::ceil(shape_vertices[i * 3 + 1]), Box_yu);
@@ -705,15 +709,12 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
     Box_zu = std::max((GLint)std::ceil(shape_vertices[i * 3]), Box_zu);
   }
 
-  // printf("%d %d %d   %d %d %d\n", Box_xl, Box_yl, Box_zl, Box_xu, Box_yu,
-  // Box_zu);;
-  int BBoxDim =
-      32 *
-      ceil(max(Box_xu - Box_xl, max(Box_yu - Box_yl, Box_zu - Box_zl)) / 32.0);
+  printf("%d %d %d   %d %d %d\n", Box_xl, Box_yl, Box_zl, Box_xu, Box_yu, Box_zu);;
+  int BBoxDim = 32 * ceil(max(Box_xu - Box_xl, max(Box_yu - Box_yl, Box_zu - Box_zl)) / 32.0);
   voxel_count = BBoxDim * BBoxDim * BBoxDim;
   dim = BBoxDim / voxel_dim;
   cout << "Dimension of Grid: " << dim << endl;
-  Grid.resize(dim, vector<vector<bool>>(dim, vector<bool>(dim, false)));
+  Grid.assign(dim, vector<vector<bool>>(dim, vector<bool>(dim, false)));
   // printf("%d\n", voxel_count);
 
   // generated normals for the triangle mesh
