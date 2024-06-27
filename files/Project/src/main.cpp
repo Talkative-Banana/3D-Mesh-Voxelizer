@@ -6,6 +6,13 @@
 
 #include "string.h"
 #include "utils.h"
+#include "chunk.h"
+#include "block.h"
+#include "Renderer.h"
+#include "VertexBuffer.h"
+#include "VertexArray.h"
+#include "IndexBuffer.h"
+#include "VertexBufferLayout.h"
 
 // uniform int numRenderTargets;
 
@@ -27,9 +34,10 @@ double oldX, oldY, currentX, currentY;
 bool isDragging = false;
 glm::vec4 camPosition;
 char textKeyStatus[256];
-float speed = 1.0f;
+float speed = 5.0f;
 bool Perspective = false;
 
+FILE *LoadModel(const char *);
 void createMeshObject(unsigned int &, unsigned int &);
 
 void setupModelTransformation(unsigned int &);
@@ -43,9 +51,9 @@ GLuint nVertices;
 float scale = 1; // Change Scale of the model as needed
 
 string tex_name = "banana";
-unsigned int shaderProgram, shaderProgram2;
+unsigned int shaderProgram, shaderProgram3;
 bool mesh = true;
-int mode_ = 1;
+int mode_ = 4;
 
 int main() {
   // Setup window
@@ -55,12 +63,10 @@ int main() {
 
   // unsigned int shaderProgram = createProgram("./shaders/vshader.vs",
   // "./shaders/fshader.fs");
-  shaderProgram =
-      createProgram("./shaders/vshader1.vs", "./shaders/fshader1.fs",
+  shaderProgram = createProgram("./shaders/vshader1.vs", "./shaders/fshader1.fs",
                     "./shaders/gshader1.gs");
-  shaderProgram2 =
-      createProgram("./shaders/vshadervis.vs", "./shaders/fshadervis.fs",
-                    "./shaders/gshadervis.gs");
+
+  shaderProgram3 = createProgram("./shaders/vshader.vs", "./shaders/fshader.fs");
 
   halfPxsize_uniform = glGetUniformLocation(shaderProgram, "halfPixelSize");
   if (halfPxsize_uniform == -1) {
@@ -72,22 +78,9 @@ int main() {
     fprintf(stderr, "Could not bind location: color.\n");
   }
 
-  voxel_dim_uniform = glGetUniformLocation(shaderProgram2, "voxel_dim");
-  if (voxel_dim_uniform == -1) {
-    fprintf(stderr, "Could not bind location voxel_dim.\n");
-  }
-
-  glUseProgram(shaderProgram2);
-  // TODO:
-  glUniform1f(voxel_dim_uniform, 1.0f);
-  int vPoint_attrib = glGetAttribLocation(shaderProgram2, "vPoint");
-  if (vPoint_attrib == -1) {
-    fprintf(stderr, "Could not bind location: vPoint\n");
-  }
-
   glUseProgram(shaderProgram);
   // TODO:
-  glUniform2f(halfPxsize_uniform, 0.5 / dim, 0.5 / dim);
+  glUniform2f(halfPxsize_uniform, 1.0/1024, 1.0/1024);
 
   oldX = oldY = currentX = currentY = 0.0;
   int prevLeftButtonState = GLFW_RELEASE;
@@ -105,9 +98,10 @@ int main() {
   glGenVertexArrays(1, &VAO);
   glGenVertexArrays(1, &VAO2);
 
-  vector<glm::vec3> point_vertices;
   GLfloat *Vertex;
   GLuint vertex_VBO2; // Vertex Buffer
+  VertexArray chunkva;
+  int cntblocks;
 
   while (!glfwWindowShouldClose(window)) {
     glfwPollEvents();
@@ -197,56 +191,60 @@ int main() {
     ImGui::End();
 
     // glUseProgram(shaderProgram);
-
     if (mesh) {
       setupModelTransformation(shaderProgram);
       camTrans(change);
       setupViewTransformation(shaderProgram);
       setupProjectionTransformation(shaderProgram);
       createMeshObject(shaderProgram, VAO);
-      glUseProgram(shaderProgram2);
       mesh = false;
 
       // shaderProgram2 = createProgram("./shaders/vshadervis.vs",
       // "./shaders/fshadervis.fs"); -64.5 to 62.5 (65 on left 63 on right)
-      point_vertices.clear();
+      chunk c = chunk(voxel_dim, glm::vec3(0.0, 0.0, 0.0), true);
       for (int i = 0; i < (int)dim; i++) {
         for (int j = 0; j < (int)dim; j++) {
           for (int k = 0; k < (int)dim; k++) {
-            if (Grid[i][j][k]) {
-              glm::vec3 temp =
-                  glm::vec3(i - ((dim + 1) / 2), j - ((dim + 1) / 2), k - ((dim + 1) / 2)); // TODO:
-              point_vertices.push_back(temp);
-            }
+            c.filled[i][j][k] = Grid[i][j][k];
           }
         }
       }
 
-      Vertex = new GLfloat[point_vertices.size() * 3];
-      int k = 0;
-      for (auto vec : point_vertices) {
-        Vertex[k + 0] = vec.x;
-        Vertex[k + 1] = vec.y;
-        Vertex[k + 2] = vec.z;
-        k += 3;
-      }
+      c.Render();
 
-      glGenBuffers(1, &vertex_VBO2);
-      glBindBuffer(GL_ARRAY_BUFFER, vertex_VBO2);
-      glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * point_vertices.size() * 3,
-                   Vertex, GL_STATIC_DRAW);
-      Nplane = -100;
-      Fplane = -1000;
-      glUseProgram(shaderProgram2);
+      GLuint vcnt = c.rendervert.size(), icnt = c.indices.size(), cnt = c.count;
+      // Allocate Heap memory for verticies and indices
+      GLfloat* cube_vertices = (GLfloat*)malloc(vcnt * sizeof(GLfloat));
+      GLuint* cube_indices = (GLuint*)malloc(icnt * sizeof(GLuint));
+      // Assign the memory
+      for(int i = 0; i < vcnt; i++) cube_vertices[i] = c.rendervert[i];
+      for(int i = 0; i < icnt; i++) cube_indices[i] = c.indices[i];
+
+      std::cout << "[Memory Usage: " << (1.0 * (vcnt * sizeof(GLfloat) + icnt * sizeof(GLuint))) / 1e6 << " mb]" << std::endl;
+
+      //Create VBOs for the VAO
+      int numofbytespervertex = 3;
+      int numofvertexperblock = 8;
+      cntblocks = cnt;
+      VertexBuffer vb(cube_vertices, cnt * numofbytespervertex * numofvertexperblock * sizeof(GLfloat));
+      // Create Layout for VAO
+      // Position information (data + format)
+      VertexBufferLayout layout;
+      layout.Push(GL_FLOAT, 3);
+      // Add vb and layout to vao
+      chunkva.AddBuffer(vb, layout);
+      // Create IBOs for the VAO
+      IndexBuffer ib(cube_indices, icnt);
+      ib.Bind();
+      delete []cube_vertices;
+      delete []cube_indices;
+      glBindBuffer(GL_ARRAY_BUFFER, 0);
+      glBindVertexArray(0); //Unbind the VAO to disable changes outside this function.
     }
-
-    setupModelTransformation(shaderProgram2);
+    setupModelTransformation(shaderProgram3);
     camTrans(change);
-    setupViewTransformation(shaderProgram2);
-    setupProjectionTransformation(shaderProgram2);
-
-    glGenVertexArrays(1, &VAO2);
-    glBindVertexArray(VAO2);
+    setupViewTransformation(shaderProgram3);
+    setupProjectionTransformation(shaderProgram3);
 
     // Rendering
     ImGui::Render();
@@ -255,21 +253,17 @@ int main() {
     glViewport(0, 0, display_w, display_h);
     glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
+    glFrontFace(GL_CCW);
 
-    // // Create VBOs for the VAO
-
-    // glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*point_vertices.size()*3,
-    // Vertex, GL_STATIC_DRAW);
-    glEnableVertexAttribArray(vPoint_attrib);
-    glVertexAttribPointer(vPoint_attrib, 3, GL_FLOAT, GL_FALSE, 00, 0);
-    // delete []Vertex;
-
+    // Create VBOs for the VAO
+    glUseProgram(shaderProgram3);
     glViewport(0, 0, 1000, 1000); // Render on the whole framebuffer, complete from the
     // lower left corner to the upper right
-    glBindVertexArray(VAO2);
-
-    // // Visualize();
-    glDrawArrays(GL_POINTS, 0, point_vertices.size() * 3);
+    chunkva.Bind();
+		glDrawElements(GL_TRIANGLES, cntblocks * 12 * 3, GL_UNSIGNED_INT, nullptr);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     glfwSwapBuffers(window);
@@ -440,13 +434,12 @@ void saveTextureToFile(const std::string &filename, int width, int height) {
 
 void Rasterize(char dir, vector<glm::vec3> &bucket, GLfloat *buc, unsigned int &shape_VAO, int vVertex_attrib) {
   int slabs = ceil((double)dim / (double)32);
-  unsigned int sheetbuffer;
 
   camPosition = (dir == 'x') ? glm::vec4(-1000.0f, 0.0f, 0.0f, 1.0f)
               : (dir == 'y') ? glm::vec4(0.0f, -1000.0f, 0.0001f, 1.0f)
                              : glm::vec4(0.0f, 0.0f, -1000.0f, 1.0f);
-  setupViewTransformation(shaderProgram);
 
+  setupViewTransformation(shaderProgram);
   // Generate VAO object
   glGenVertexArrays(1, &shape_VAO);
   glBindVertexArray(shape_VAO);
@@ -460,12 +453,10 @@ void Rasterize(char dir, vector<glm::vec3> &bucket, GLfloat *buc, unsigned int &
   // shape_vertices, GL_STATIC_DRAW);
   glEnableVertexAttribArray(vVertex_attrib);
   glVertexAttribPointer(vVertex_attrib, 3, GL_FLOAT, GL_FALSE, 0, 0);
-  // -100 340
   glEnable(GL_BLEND);
   glBlendFunc(GL_ONE, GL_ONE);
 
-  // The framebuffer, which regroups 0, 1, or more textures, and 0 or 1 depth
-  // buffer.
+  // The framebuffer, which regroups 0, 1, or more textures, and 0 or 1 depth buffer.
   GLuint FramebufferName = 1;
   glGenFramebuffers(1, &FramebufferName);
   glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
@@ -613,6 +604,11 @@ void BatchRender(string dir) {
   }
 }
 
+FILE *LoadModel(const char *path) {
+	FILE *file = fopen(path, "r");
+	return file;
+}
+
 void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
   vector<int> vertex_indices, uv_indices, normal_indices;
   vector<glm::vec3> temp_vertices;
@@ -621,7 +617,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
   int ct = 0;
 
   scale = 1.0; // Change Scale of the model as needed
-  FILE *file = fopen("src/bunny.obj", "r");
+  FILE *file = LoadModel("src/bunny.obj");
   if (file == NULL)
     printf("File not found\n");
 
@@ -709,7 +705,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
     Box_zu = std::max((GLint)std::ceil(shape_vertices[i * 3]), Box_zu);
   }
 
-  printf("%d %d %d   %d %d %d\n", Box_xl, Box_yl, Box_zl, Box_xu, Box_yu, Box_zu);;
+  // printf("%d %d %d   %d %d %d\n", Box_xl, Box_yl, Box_zl, Box_xu, Box_yu, Box_zu);
   int BBoxDim = 32 * ceil(max(Box_xu - Box_xl, max(Box_yu - Box_yl, Box_zu - Box_zl)) / 32.0);
   voxel_count = BBoxDim * BBoxDim * BBoxDim;
   dim = BBoxDim / voxel_dim;
@@ -719,8 +715,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
 
   // generated normals for the triangle mesh
   for (int i = 0; i < vertex_indices.size(); i += 3) {
-    glm::vec3 v1 =
-        glm::vec3(shape_vertices[(i + 1) * 3] - shape_vertices[i * 3],
+    glm::vec3 v1 = glm::vec3(shape_vertices[(i + 1) * 3] - shape_vertices[i * 3],
                   shape_vertices[(i + 1) * 3 + 1] - shape_vertices[i * 3 + 1],
                   shape_vertices[(i + 1) * 3 + 2] - shape_vertices[i * 3 + 2]);
     glm::vec3 v2 = glm::vec3(
@@ -747,11 +742,9 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
     // Represents vertices and normal of the triangle
     glm::vec3 P1 = glm::vec3(shape_vertices[i * 3], shape_vertices[i * 3 + 1],
                              shape_vertices[i * 3 + 2]); // x cords of triangle
-    glm::vec3 P2 =
-        glm::vec3(shape_vertices[(i + 1) * 3], shape_vertices[(i + 1) * 3 + 1],
+    glm::vec3 P2 = glm::vec3(shape_vertices[(i + 1) * 3], shape_vertices[(i + 1) * 3 + 1],
                   shape_vertices[(i + 1) * 3 + 2]); // y cords of triangle
-    glm::vec3 P3 =
-        glm::vec3(shape_vertices[(i + 2) * 3], shape_vertices[(i + 2) * 3 + 1],
+    glm::vec3 P3 = glm::vec3(shape_vertices[(i + 2) * 3], shape_vertices[(i + 2) * 3 + 1],
                   shape_vertices[(i + 2) * 3 + 2]); // z cords of triangle
 
     glm::vec3 v1 = P1 - P2;
@@ -814,6 +807,9 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
       bucZ[3 * i + j] = temp[j];
     }
   }
+
+  delete[] shape_vertices;
+  delete[] vertex_normals;
 
   // RGBA
   Rasterize('x', bucketX, bucX, shape_VAO, vVertex_attrib);

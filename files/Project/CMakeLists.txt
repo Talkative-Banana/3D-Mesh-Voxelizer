@@ -14,6 +14,12 @@ find_package(GLEW REQUIRED)
 set(SOURCES
 	"src/main.cpp"
 	"src/utils.cpp"
+	"src/chunk.cpp"
+	"src/block.cpp"
+	"src/Renderer.cpp"
+	"src/VertexBuffer.cpp"
+	"src/VertexArray.cpp"
+	"src/IndexBuffer.cpp"
 	"depends/imgui/imgui_impl_glfw.cpp"
 	"depends/imgui/imgui_impl_opengl3.cpp"
 	"depends/imgui/imgui.cpp"

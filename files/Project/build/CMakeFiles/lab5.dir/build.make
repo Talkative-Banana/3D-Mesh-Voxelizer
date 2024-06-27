@@ -97,10 +97,94 @@ CMakeFiles/lab5.dir/src/utils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/lab5.dir/src/utils.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/utils.cpp -o CMakeFiles/lab5.dir/src/utils.cpp.s
 
+CMakeFiles/lab5.dir/src/chunk.cpp.o: CMakeFiles/lab5.dir/flags.make
+CMakeFiles/lab5.dir/src/chunk.cpp.o: /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/chunk.cpp
+CMakeFiles/lab5.dir/src/chunk.cpp.o: CMakeFiles/lab5.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/lab5.dir/src/chunk.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/lab5.dir/src/chunk.cpp.o -MF CMakeFiles/lab5.dir/src/chunk.cpp.o.d -o CMakeFiles/lab5.dir/src/chunk.cpp.o -c /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/chunk.cpp
+
+CMakeFiles/lab5.dir/src/chunk.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/lab5.dir/src/chunk.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/chunk.cpp > CMakeFiles/lab5.dir/src/chunk.cpp.i
+
+CMakeFiles/lab5.dir/src/chunk.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/lab5.dir/src/chunk.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/chunk.cpp -o CMakeFiles/lab5.dir/src/chunk.cpp.s
+
+CMakeFiles/lab5.dir/src/block.cpp.o: CMakeFiles/lab5.dir/flags.make
+CMakeFiles/lab5.dir/src/block.cpp.o: /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/block.cpp
+CMakeFiles/lab5.dir/src/block.cpp.o: CMakeFiles/lab5.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/lab5.dir/src/block.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/lab5.dir/src/block.cpp.o -MF CMakeFiles/lab5.dir/src/block.cpp.o.d -o CMakeFiles/lab5.dir/src/block.cpp.o -c /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/block.cpp
+
+CMakeFiles/lab5.dir/src/block.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/lab5.dir/src/block.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/block.cpp > CMakeFiles/lab5.dir/src/block.cpp.i
+
+CMakeFiles/lab5.dir/src/block.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/lab5.dir/src/block.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/block.cpp -o CMakeFiles/lab5.dir/src/block.cpp.s
+
+CMakeFiles/lab5.dir/src/Renderer.cpp.o: CMakeFiles/lab5.dir/flags.make
+CMakeFiles/lab5.dir/src/Renderer.cpp.o: /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/Renderer.cpp
+CMakeFiles/lab5.dir/src/Renderer.cpp.o: CMakeFiles/lab5.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/lab5.dir/src/Renderer.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/lab5.dir/src/Renderer.cpp.o -MF CMakeFiles/lab5.dir/src/Renderer.cpp.o.d -o CMakeFiles/lab5.dir/src/Renderer.cpp.o -c /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/Renderer.cpp
+
+CMakeFiles/lab5.dir/src/Renderer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/lab5.dir/src/Renderer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/Renderer.cpp > CMakeFiles/lab5.dir/src/Renderer.cpp.i
+
+CMakeFiles/lab5.dir/src/Renderer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/lab5.dir/src/Renderer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/Renderer.cpp -o CMakeFiles/lab5.dir/src/Renderer.cpp.s
+
+CMakeFiles/lab5.dir/src/VertexBuffer.cpp.o: CMakeFiles/lab5.dir/flags.make
+CMakeFiles/lab5.dir/src/VertexBuffer.cpp.o: /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/VertexBuffer.cpp
+CMakeFiles/lab5.dir/src/VertexBuffer.cpp.o: CMakeFiles/lab5.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/lab5.dir/src/VertexBuffer.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/lab5.dir/src/VertexBuffer.cpp.o -MF CMakeFiles/lab5.dir/src/VertexBuffer.cpp.o.d -o CMakeFiles/lab5.dir/src/VertexBuffer.cpp.o -c /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/VertexBuffer.cpp
+
+CMakeFiles/lab5.dir/src/VertexBuffer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/lab5.dir/src/VertexBuffer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/VertexBuffer.cpp > CMakeFiles/lab5.dir/src/VertexBuffer.cpp.i
+
+CMakeFiles/lab5.dir/src/VertexBuffer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/lab5.dir/src/VertexBuffer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/VertexBuffer.cpp -o CMakeFiles/lab5.dir/src/VertexBuffer.cpp.s
+
+CMakeFiles/lab5.dir/src/VertexArray.cpp.o: CMakeFiles/lab5.dir/flags.make
+CMakeFiles/lab5.dir/src/VertexArray.cpp.o: /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/VertexArray.cpp
+CMakeFiles/lab5.dir/src/VertexArray.cpp.o: CMakeFiles/lab5.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/lab5.dir/src/VertexArray.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/lab5.dir/src/VertexArray.cpp.o -MF CMakeFiles/lab5.dir/src/VertexArray.cpp.o.d -o CMakeFiles/lab5.dir/src/VertexArray.cpp.o -c /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/VertexArray.cpp
+
+CMakeFiles/lab5.dir/src/VertexArray.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/lab5.dir/src/VertexArray.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/VertexArray.cpp > CMakeFiles/lab5.dir/src/VertexArray.cpp.i
+
+CMakeFiles/lab5.dir/src/VertexArray.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/lab5.dir/src/VertexArray.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/VertexArray.cpp -o CMakeFiles/lab5.dir/src/VertexArray.cpp.s
+
+CMakeFiles/lab5.dir/src/IndexBuffer.cpp.o: CMakeFiles/lab5.dir/flags.make
+CMakeFiles/lab5.dir/src/IndexBuffer.cpp.o: /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/IndexBuffer.cpp
+CMakeFiles/lab5.dir/src/IndexBuffer.cpp.o: CMakeFiles/lab5.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/lab5.dir/src/IndexBuffer.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/lab5.dir/src/IndexBuffer.cpp.o -MF CMakeFiles/lab5.dir/src/IndexBuffer.cpp.o.d -o CMakeFiles/lab5.dir/src/IndexBuffer.cpp.o -c /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/IndexBuffer.cpp
+
+CMakeFiles/lab5.dir/src/IndexBuffer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/lab5.dir/src/IndexBuffer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/IndexBuffer.cpp > CMakeFiles/lab5.dir/src/IndexBuffer.cpp.i
+
+CMakeFiles/lab5.dir/src/IndexBuffer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/lab5.dir/src/IndexBuffer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/IndexBuffer.cpp -o CMakeFiles/lab5.dir/src/IndexBuffer.cpp.s
+
 CMakeFiles/lab5.dir/depends/imgui/imgui_impl_glfw.cpp.o: CMakeFiles/lab5.dir/flags.make
 CMakeFiles/lab5.dir/depends/imgui/imgui_impl_glfw.cpp.o: /home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui_impl_glfw.cpp
 CMakeFiles/lab5.dir/depends/imgui/imgui_impl_glfw.cpp.o: CMakeFiles/lab5.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/lab5.dir/depends/imgui/imgui_impl_glfw.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/lab5.dir/depends/imgui/imgui_impl_glfw.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/lab5.dir/depends/imgui/imgui_impl_glfw.cpp.o -MF CMakeFiles/lab5.dir/depends/imgui/imgui_impl_glfw.cpp.o.d -o CMakeFiles/lab5.dir/depends/imgui/imgui_impl_glfw.cpp.o -c /home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui_impl_glfw.cpp
 
 CMakeFiles/lab5.dir/depends/imgui/imgui_impl_glfw.cpp.i: cmake_force
@@ -114,7 +198,7 @@ CMakeFiles/lab5.dir/depends/imgui/imgui_impl_glfw.cpp.s: cmake_force
 CMakeFiles/lab5.dir/depends/imgui/imgui_impl_opengl3.cpp.o: CMakeFiles/lab5.dir/flags.make
 CMakeFiles/lab5.dir/depends/imgui/imgui_impl_opengl3.cpp.o: /home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui_impl_opengl3.cpp
 CMakeFiles/lab5.dir/depends/imgui/imgui_impl_opengl3.cpp.o: CMakeFiles/lab5.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/lab5.dir/depends/imgui/imgui_impl_opengl3.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/lab5.dir/depends/imgui/imgui_impl_opengl3.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/lab5.dir/depends/imgui/imgui_impl_opengl3.cpp.o -MF CMakeFiles/lab5.dir/depends/imgui/imgui_impl_opengl3.cpp.o.d -o CMakeFiles/lab5.dir/depends/imgui/imgui_impl_opengl3.cpp.o -c /home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui_impl_opengl3.cpp
 
 CMakeFiles/lab5.dir/depends/imgui/imgui_impl_opengl3.cpp.i: cmake_force
@@ -128,7 +212,7 @@ CMakeFiles/lab5.dir/depends/imgui/imgui_impl_opengl3.cpp.s: cmake_force
 CMakeFiles/lab5.dir/depends/imgui/imgui.cpp.o: CMakeFiles/lab5.dir/flags.make
 CMakeFiles/lab5.dir/depends/imgui/imgui.cpp.o: /home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui.cpp
 CMakeFiles/lab5.dir/depends/imgui/imgui.cpp.o: CMakeFiles/lab5.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/lab5.dir/depends/imgui/imgui.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/lab5.dir/depends/imgui/imgui.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/lab5.dir/depends/imgui/imgui.cpp.o -MF CMakeFiles/lab5.dir/depends/imgui/imgui.cpp.o.d -o CMakeFiles/lab5.dir/depends/imgui/imgui.cpp.o -c /home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui.cpp
 
 CMakeFiles/lab5.dir/depends/imgui/imgui.cpp.i: cmake_force
@@ -142,7 +226,7 @@ CMakeFiles/lab5.dir/depends/imgui/imgui.cpp.s: cmake_force
 CMakeFiles/lab5.dir/depends/imgui/imgui_demo.cpp.o: CMakeFiles/lab5.dir/flags.make
 CMakeFiles/lab5.dir/depends/imgui/imgui_demo.cpp.o: /home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui_demo.cpp
 CMakeFiles/lab5.dir/depends/imgui/imgui_demo.cpp.o: CMakeFiles/lab5.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/lab5.dir/depends/imgui/imgui_demo.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/lab5.dir/depends/imgui/imgui_demo.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/lab5.dir/depends/imgui/imgui_demo.cpp.o -MF CMakeFiles/lab5.dir/depends/imgui/imgui_demo.cpp.o.d -o CMakeFiles/lab5.dir/depends/imgui/imgui_demo.cpp.o -c /home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui_demo.cpp
 
 CMakeFiles/lab5.dir/depends/imgui/imgui_demo.cpp.i: cmake_force
@@ -156,7 +240,7 @@ CMakeFiles/lab5.dir/depends/imgui/imgui_demo.cpp.s: cmake_force
 CMakeFiles/lab5.dir/depends/imgui/imgui_draw.cpp.o: CMakeFiles/lab5.dir/flags.make
 CMakeFiles/lab5.dir/depends/imgui/imgui_draw.cpp.o: /home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui_draw.cpp
 CMakeFiles/lab5.dir/depends/imgui/imgui_draw.cpp.o: CMakeFiles/lab5.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/lab5.dir/depends/imgui/imgui_draw.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/lab5.dir/depends/imgui/imgui_draw.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/lab5.dir/depends/imgui/imgui_draw.cpp.o -MF CMakeFiles/lab5.dir/depends/imgui/imgui_draw.cpp.o.d -o CMakeFiles/lab5.dir/depends/imgui/imgui_draw.cpp.o -c /home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui_draw.cpp
 
 CMakeFiles/lab5.dir/depends/imgui/imgui_draw.cpp.i: cmake_force
@@ -170,7 +254,7 @@ CMakeFiles/lab5.dir/depends/imgui/imgui_draw.cpp.s: cmake_force
 CMakeFiles/lab5.dir/depends/imgui/imgui_widgets.cpp.o: CMakeFiles/lab5.dir/flags.make
 CMakeFiles/lab5.dir/depends/imgui/imgui_widgets.cpp.o: /home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui_widgets.cpp
 CMakeFiles/lab5.dir/depends/imgui/imgui_widgets.cpp.o: CMakeFiles/lab5.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/lab5.dir/depends/imgui/imgui_widgets.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/lab5.dir/depends/imgui/imgui_widgets.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/lab5.dir/depends/imgui/imgui_widgets.cpp.o -MF CMakeFiles/lab5.dir/depends/imgui/imgui_widgets.cpp.o.d -o CMakeFiles/lab5.dir/depends/imgui/imgui_widgets.cpp.o -c /home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui_widgets.cpp
 
 CMakeFiles/lab5.dir/depends/imgui/imgui_widgets.cpp.i: cmake_force
@@ -185,6 +269,12 @@ CMakeFiles/lab5.dir/depends/imgui/imgui_widgets.cpp.s: cmake_force
 lab5_OBJECTS = \
 "CMakeFiles/lab5.dir/src/main.cpp.o" \
 "CMakeFiles/lab5.dir/src/utils.cpp.o" \
+"CMakeFiles/lab5.dir/src/chunk.cpp.o" \
+"CMakeFiles/lab5.dir/src/block.cpp.o" \
+"CMakeFiles/lab5.dir/src/Renderer.cpp.o" \
+"CMakeFiles/lab5.dir/src/VertexBuffer.cpp.o" \
+"CMakeFiles/lab5.dir/src/VertexArray.cpp.o" \
+"CMakeFiles/lab5.dir/src/IndexBuffer.cpp.o" \
 "CMakeFiles/lab5.dir/depends/imgui/imgui_impl_glfw.cpp.o" \
 "CMakeFiles/lab5.dir/depends/imgui/imgui_impl_opengl3.cpp.o" \
 "CMakeFiles/lab5.dir/depends/imgui/imgui.cpp.o" \
@@ -197,6 +287,12 @@ lab5_EXTERNAL_OBJECTS =
 
 /home/lucky/Computer_Graphics/Project_GitHub/files/Project/lab5: CMakeFiles/lab5.dir/src/main.cpp.o
 /home/lucky/Computer_Graphics/Project_GitHub/files/Project/lab5: CMakeFiles/lab5.dir/src/utils.cpp.o
+/home/lucky/Computer_Graphics/Project_GitHub/files/Project/lab5: CMakeFiles/lab5.dir/src/chunk.cpp.o
+/home/lucky/Computer_Graphics/Project_GitHub/files/Project/lab5: CMakeFiles/lab5.dir/src/block.cpp.o
+/home/lucky/Computer_Graphics/Project_GitHub/files/Project/lab5: CMakeFiles/lab5.dir/src/Renderer.cpp.o
+/home/lucky/Computer_Graphics/Project_GitHub/files/Project/lab5: CMakeFiles/lab5.dir/src/VertexBuffer.cpp.o
+/home/lucky/Computer_Graphics/Project_GitHub/files/Project/lab5: CMakeFiles/lab5.dir/src/VertexArray.cpp.o
+/home/lucky/Computer_Graphics/Project_GitHub/files/Project/lab5: CMakeFiles/lab5.dir/src/IndexBuffer.cpp.o
 /home/lucky/Computer_Graphics/Project_GitHub/files/Project/lab5: CMakeFiles/lab5.dir/depends/imgui/imgui_impl_glfw.cpp.o
 /home/lucky/Computer_Graphics/Project_GitHub/files/Project/lab5: CMakeFiles/lab5.dir/depends/imgui/imgui_impl_opengl3.cpp.o
 /home/lucky/Computer_Graphics/Project_GitHub/files/Project/lab5: CMakeFiles/lab5.dir/depends/imgui/imgui.cpp.o
@@ -209,7 +305,7 @@ lab5_EXTERNAL_OBJECTS =
 /home/lucky/Computer_Graphics/Project_GitHub/files/Project/lab5: /usr/lib/x86_64-linux-gnu/libglfw.so.3.3
 /home/lucky/Computer_Graphics/Project_GitHub/files/Project/lab5: /usr/lib/x86_64-linux-gnu/libGLEW.so
 /home/lucky/Computer_Graphics/Project_GitHub/files/Project/lab5: CMakeFiles/lab5.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable /home/lucky/Computer_Graphics/Project_GitHub/files/Project/lab5"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX executable /home/lucky/Computer_Graphics/Project_GitHub/files/Project/lab5"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/lab5.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

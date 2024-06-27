@@ -14,6 +14,12 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui_impl_glfw.cpp" "CMakeFiles/lab5.dir/depends/imgui/imgui_impl_glfw.cpp.o" "gcc" "CMakeFiles/lab5.dir/depends/imgui/imgui_impl_glfw.cpp.o.d"
   "/home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui_impl_opengl3.cpp" "CMakeFiles/lab5.dir/depends/imgui/imgui_impl_opengl3.cpp.o" "gcc" "CMakeFiles/lab5.dir/depends/imgui/imgui_impl_opengl3.cpp.o.d"
   "/home/lucky/Computer_Graphics/Project_GitHub/files/Project/depends/imgui/imgui_widgets.cpp" "CMakeFiles/lab5.dir/depends/imgui/imgui_widgets.cpp.o" "gcc" "CMakeFiles/lab5.dir/depends/imgui/imgui_widgets.cpp.o.d"
+  "/home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/IndexBuffer.cpp" "CMakeFiles/lab5.dir/src/IndexBuffer.cpp.o" "gcc" "CMakeFiles/lab5.dir/src/IndexBuffer.cpp.o.d"
+  "/home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/Renderer.cpp" "CMakeFiles/lab5.dir/src/Renderer.cpp.o" "gcc" "CMakeFiles/lab5.dir/src/Renderer.cpp.o.d"
+  "/home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/VertexArray.cpp" "CMakeFiles/lab5.dir/src/VertexArray.cpp.o" "gcc" "CMakeFiles/lab5.dir/src/VertexArray.cpp.o.d"
+  "/home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/VertexBuffer.cpp" "CMakeFiles/lab5.dir/src/VertexBuffer.cpp.o" "gcc" "CMakeFiles/lab5.dir/src/VertexBuffer.cpp.o.d"
+  "/home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/block.cpp" "CMakeFiles/lab5.dir/src/block.cpp.o" "gcc" "CMakeFiles/lab5.dir/src/block.cpp.o.d"
+  "/home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/chunk.cpp" "CMakeFiles/lab5.dir/src/chunk.cpp.o" "gcc" "CMakeFiles/lab5.dir/src/chunk.cpp.o.d"
   "/home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/main.cpp" "CMakeFiles/lab5.dir/src/main.cpp.o" "gcc" "CMakeFiles/lab5.dir/src/main.cpp.o.d"
   "/home/lucky/Computer_Graphics/Project_GitHub/files/Project/src/utils.cpp" "CMakeFiles/lab5.dir/src/utils.cpp.o" "gcc" "CMakeFiles/lab5.dir/src/utils.cpp.o.d"
   )
