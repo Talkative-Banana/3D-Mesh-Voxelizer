@@ -54,16 +54,16 @@ RM = /usr/local/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/lucky/Computer_Graphics/Project_GitHub/files/Project
+CMAKE_SOURCE_DIR = /home/lucky/Computer_Graphics/Project_GitHub
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/lucky/Computer_Graphics/Project_GitHub/files/Project/build
+CMAKE_BINARY_DIR = /home/lucky/Computer_Graphics/Project_GitHub/build
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/lab5.dir/all
+all: CMakeFiles/voxelize.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -71,34 +71,34 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/lab5.dir/clean
+clean: CMakeFiles/voxelize.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/lab5.dir
+# Target rules for target CMakeFiles/voxelize.dir
 
 # All Build rule for target.
-CMakeFiles/lab5.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 "Built target lab5"
-.PHONY : CMakeFiles/lab5.dir/all
+CMakeFiles/voxelize.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/lucky/Computer_Graphics/Project_GitHub/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15 "Built target voxelize"
+.PHONY : CMakeFiles/voxelize.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/lab5.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles 15
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/lab5.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles 0
-.PHONY : CMakeFiles/lab5.dir/rule
+CMakeFiles/voxelize.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucky/Computer_Graphics/Project_GitHub/build/CMakeFiles 15
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/voxelize.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucky/Computer_Graphics/Project_GitHub/build/CMakeFiles 0
+.PHONY : CMakeFiles/voxelize.dir/rule
 
 # Convenience name for target.
-lab5: CMakeFiles/lab5.dir/rule
-.PHONY : lab5
+voxelize: CMakeFiles/voxelize.dir/rule
+.PHONY : voxelize
 
 # clean rule for target.
-CMakeFiles/lab5.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/clean
-.PHONY : CMakeFiles/lab5.dir/clean
+CMakeFiles/voxelize.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/clean
+.PHONY : CMakeFiles/voxelize.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

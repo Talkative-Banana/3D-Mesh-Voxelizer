@@ -117,7 +117,8 @@ int main() {
     } else if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_RightArrow))) {
       strcpy(textKeyStatus, "Key status: Right");
       change.x -= speed;
-    } else if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_UpArrow))) {
+    } 
+    if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_UpArrow))) {
       if (io.KeyShift) {
         strcpy(textKeyStatus, "Key status: Shift + Up");
         change.z -= speed;
@@ -137,39 +138,43 @@ int main() {
         strcpy(textKeyStatus, "Key status: Down");
         change.y -= speed;
       }
-    } else if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_Z))) {
+    } 
+    if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_Z))) {
       if (io.KeyCtrl) {
         strcpy(textKeyStatus, "Key status: Ctrl + z");
         // Move camera to [0, 0, 100] i.e. => along z axis
         if (!Perspective || Perspective) {
-          camPosition = {0.0f, 0.0f, -100.0f, 1.0f};
+          camPosition = {0.0f, 0.0f, -1000.0f, 1.0f};
         }
       } else {
         strcpy(textKeyStatus, "Key status: z");
         Perspective = false;
       }
-    } else if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_X))) {
+    } 
+    if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_X))) {
       if (io.KeyCtrl) {
         strcpy(textKeyStatus, "Key status: Ctrl + x");
         // Move camera to [100, 0, 0] i.e. => along x axis
         if (!Perspective || Perspective) {
-          camPosition = {-100.0f, 0.0f, 0.0f, 1.0f};
+          camPosition = {-1000.0f, 0.0f, 0.0f, 1.0f};
         }
       } else {
         strcpy(textKeyStatus, "Key status: x");
         Perspective = true;
       }
-    } else if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_Y))) {
+    } 
+    if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_Y))) {
       if (io.KeyCtrl) {
         strcpy(textKeyStatus, "Key status: Ctrl + y");
         // Move camera to [0, 100, 0] i.e. => along y axis (due to camera
         // rolling gaze direction shouldn't be parallel to y) So Moved with some
         // offset
         if (!Perspective || Perspective) {
-          camPosition = {0.0f, -100.0f, 0.20f, 1.0f};
+          camPosition = {0.0f, -1000.0f, 0.001f, 1.0f};
         }
       }
-    } else if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_C))) {
+    } 
+    if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_C))) {
       strcpy(textKeyStatus, "Key status: C");
       mode_ = (mode_ + 1) % 4;
       mesh = true;
@@ -211,8 +216,7 @@ int main() {
           }
         }
       }
-
-      c.Render();
+      c.Render(); // <= Needs Optimization
 
       GLuint vcnt = c.rendervert.size(), icnt = c.indices.size(), cnt = c.count;
       // Allocate Heap memory for verticies and indices
@@ -221,8 +225,7 @@ int main() {
       // Assign the memory
       for(int i = 0; i < vcnt; i++) cube_vertices[i] = c.rendervert[i];
       for(int i = 0; i < icnt; i++) cube_indices[i] = c.indices[i];
-
-      std::cout << "[Memory Usage: " << (1.0 * (vcnt * sizeof(GLfloat) + icnt * sizeof(GLuint))) / 1e6 << " mb]" << std::endl;
+      std::cout << "[VRAM Usage: " << (1.0 * (3 * vcnt * sizeof(GLfloat) + icnt * sizeof(GLuint))) / 1e6 << " mb]" << std::endl;
 
       //Create VBOs for the VAO
       int numofbytespervertex = 3;
@@ -306,22 +309,10 @@ void camTrans(glm::vec3 &Change) {
                     X.z, Y.z, Z.z, 0, 0,   0,   0,   1};
 
   // World to Camera Matrix Transaltion
-  glm::mat4 w2ct = {1,
-                    0,
-                    0,
-                    0,
-                    0,
-                    1,
-                    0,
-                    0,
-                    0,
-                    0,
-                    1,
-                    0,
-                    -camPosition.x,
-                    -camPosition.y,
-                    -camPosition.z,
-                    1};
+  glm::mat4 w2ct = {1,0,0,0,
+                    0,1,0,0,
+                    0,0,1,0,
+                    -camPosition.x, -camPosition.y, -camPosition.z, 1};
 
   // World to Camera Matrix
   glm::mat4 w2c = w2cr * w2ct;
@@ -334,22 +325,10 @@ void camTrans(glm::vec3 &Change) {
                     w.x, w.y, w.z, 0, 0,   0,   0,   1};
 
   // Camera to World Matrix Transalation
-  glm::mat4 c2wt = {1,
-                    0,
-                    0,
-                    0,
-                    0,
-                    1,
-                    0,
-                    0,
-                    0,
-                    0,
-                    1,
-                    0,
-                    adjustedvec.x,
-                    adjustedvec.y,
-                    adjustedvec.z,
-                    1};
+  glm::mat4 c2wt = {1,0,0,0,
+                    0,1,0,0,
+                    0,0,1,0,
+                    adjustedvec.x,adjustedvec.y,adjustedvec.z,1};
 
   // Camera to World Matrix
   glm::mat4 c2w = c2wr * c2wt;
@@ -579,7 +558,7 @@ void BatchRender(string dir) {
                 l = 32 * (slabs - slab) + (32 - k - 1), m = j, n = loadlen - i - 1;
                 m /= div, n /= div;
               } else{
-                l = loadlen - i - 1, m = 32 * (slab - 1) + k, n = loadlen - 1 - j;
+                l = loadlen - i - 1, m = 32 * (slab - 1) + k, n = loadlen - j - 1;
                 l /= div, n /= div;
               }
 
@@ -604,6 +583,7 @@ void BatchRender(string dir) {
           }
         }
       }
+      stbi_image_free(data);
     } else {
       std::cout << "Failed to load texture" << std::endl;
       perror("Err: ");
@@ -624,7 +604,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
   int ct = 0;
 
   scale = 1.0; // Change Scale of the model as needed
-  FILE *file = LoadModel("src/bunny.obj");
+  FILE *file = LoadModel("src/models/bunny.obj");
   if (file == NULL)
     printf("File not found\n");
 
@@ -831,7 +811,6 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
       }
     }
   }
-  cout << dim << endl;
 
   if (mode_ == 1) {
     cout << "Rendering Along X axis\n";
@@ -847,15 +826,5 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
     BatchRender("x");
     BatchRender("y");
     BatchRender("z");
-    // std::thread worker1(BatchRender, "x");
-    // std::thread worker2(BatchRender, "y");
-    // std::thread worker3(BatchRender, "z");
-    // worker1.join();
-    // worker2.join();
-    // worker3.join();
   }
-
-  // BatchRender("x");
-  // // BatchRender("y");
-  // BatchRender("z");
 }

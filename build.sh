@@ -8,4 +8,4 @@ make -j 4
 cd ..
 rm -r textures
 mkdir textures
-./lab5
+./voxelize

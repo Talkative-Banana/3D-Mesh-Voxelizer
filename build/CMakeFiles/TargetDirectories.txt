@@ -1,3 +1,3 @@
-/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles/lab5.dir
-/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles/edit_cache.dir
-/home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles/rebuild_cache.dir
+/home/lucky/Computer_Graphics/Project_GitHub/build/CMakeFiles/voxelize.dir
+/home/lucky/Computer_Graphics/Project_GitHub/build/CMakeFiles/edit_cache.dir
+/home/lucky/Computer_Graphics/Project_GitHub/build/CMakeFiles/rebuild_cache.dir

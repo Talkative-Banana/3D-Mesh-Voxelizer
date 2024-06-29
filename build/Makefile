@@ -57,10 +57,10 @@ RM = /usr/local/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/lucky/Computer_Graphics/Project_GitHub/files/Project
+CMAKE_SOURCE_DIR = /home/lucky/Computer_Graphics/Project_GitHub
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/lucky/Computer_Graphics/Project_GitHub/files/Project/build
+CMAKE_BINARY_DIR = /home/lucky/Computer_Graphics/Project_GitHub/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles /home/lucky/Computer_Graphics/Project_GitHub/files/Project/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucky/Computer_Graphics/Project_GitHub/build/CMakeFiles /home/lucky/Computer_Graphics/Project_GitHub/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucky/Computer_Graphics/Project_GitHub/files/Project/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lucky/Computer_Graphics/Project_GitHub/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -117,24 +117,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named lab5
+# Target rules for targets named voxelize
 
 # Build rule for target.
-lab5: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lab5
-.PHONY : lab5
+voxelize: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 voxelize
+.PHONY : voxelize
 
 # fast build rule for target.
-lab5/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/build
-.PHONY : lab5/fast
+voxelize/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/build
+.PHONY : voxelize/fast
 
 depends/imgui/imgui.o: depends/imgui/imgui.cpp.o
 .PHONY : depends/imgui/imgui.o
 
 # target to build an object file
 depends/imgui/imgui.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/depends/imgui/imgui.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/depends/imgui/imgui.cpp.o
 .PHONY : depends/imgui/imgui.cpp.o
 
 depends/imgui/imgui.i: depends/imgui/imgui.cpp.i
@@ -142,7 +142,7 @@ depends/imgui/imgui.i: depends/imgui/imgui.cpp.i
 
 # target to preprocess a source file
 depends/imgui/imgui.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/depends/imgui/imgui.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/depends/imgui/imgui.cpp.i
 .PHONY : depends/imgui/imgui.cpp.i
 
 depends/imgui/imgui.s: depends/imgui/imgui.cpp.s
@@ -150,7 +150,7 @@ depends/imgui/imgui.s: depends/imgui/imgui.cpp.s
 
 # target to generate assembly for a file
 depends/imgui/imgui.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/depends/imgui/imgui.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/depends/imgui/imgui.cpp.s
 .PHONY : depends/imgui/imgui.cpp.s
 
 depends/imgui/imgui_demo.o: depends/imgui/imgui_demo.cpp.o
@@ -158,7 +158,7 @@ depends/imgui/imgui_demo.o: depends/imgui/imgui_demo.cpp.o
 
 # target to build an object file
 depends/imgui/imgui_demo.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/depends/imgui/imgui_demo.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/depends/imgui/imgui_demo.cpp.o
 .PHONY : depends/imgui/imgui_demo.cpp.o
 
 depends/imgui/imgui_demo.i: depends/imgui/imgui_demo.cpp.i
@@ -166,7 +166,7 @@ depends/imgui/imgui_demo.i: depends/imgui/imgui_demo.cpp.i
 
 # target to preprocess a source file
 depends/imgui/imgui_demo.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/depends/imgui/imgui_demo.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/depends/imgui/imgui_demo.cpp.i
 .PHONY : depends/imgui/imgui_demo.cpp.i
 
 depends/imgui/imgui_demo.s: depends/imgui/imgui_demo.cpp.s
@@ -174,7 +174,7 @@ depends/imgui/imgui_demo.s: depends/imgui/imgui_demo.cpp.s
 
 # target to generate assembly for a file
 depends/imgui/imgui_demo.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/depends/imgui/imgui_demo.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/depends/imgui/imgui_demo.cpp.s
 .PHONY : depends/imgui/imgui_demo.cpp.s
 
 depends/imgui/imgui_draw.o: depends/imgui/imgui_draw.cpp.o
@@ -182,7 +182,7 @@ depends/imgui/imgui_draw.o: depends/imgui/imgui_draw.cpp.o
 
 # target to build an object file
 depends/imgui/imgui_draw.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/depends/imgui/imgui_draw.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/depends/imgui/imgui_draw.cpp.o
 .PHONY : depends/imgui/imgui_draw.cpp.o
 
 depends/imgui/imgui_draw.i: depends/imgui/imgui_draw.cpp.i
@@ -190,7 +190,7 @@ depends/imgui/imgui_draw.i: depends/imgui/imgui_draw.cpp.i
 
 # target to preprocess a source file
 depends/imgui/imgui_draw.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/depends/imgui/imgui_draw.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/depends/imgui/imgui_draw.cpp.i
 .PHONY : depends/imgui/imgui_draw.cpp.i
 
 depends/imgui/imgui_draw.s: depends/imgui/imgui_draw.cpp.s
@@ -198,7 +198,7 @@ depends/imgui/imgui_draw.s: depends/imgui/imgui_draw.cpp.s
 
 # target to generate assembly for a file
 depends/imgui/imgui_draw.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/depends/imgui/imgui_draw.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/depends/imgui/imgui_draw.cpp.s
 .PHONY : depends/imgui/imgui_draw.cpp.s
 
 depends/imgui/imgui_impl_glfw.o: depends/imgui/imgui_impl_glfw.cpp.o
@@ -206,7 +206,7 @@ depends/imgui/imgui_impl_glfw.o: depends/imgui/imgui_impl_glfw.cpp.o
 
 # target to build an object file
 depends/imgui/imgui_impl_glfw.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/depends/imgui/imgui_impl_glfw.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/depends/imgui/imgui_impl_glfw.cpp.o
 .PHONY : depends/imgui/imgui_impl_glfw.cpp.o
 
 depends/imgui/imgui_impl_glfw.i: depends/imgui/imgui_impl_glfw.cpp.i
@@ -214,7 +214,7 @@ depends/imgui/imgui_impl_glfw.i: depends/imgui/imgui_impl_glfw.cpp.i
 
 # target to preprocess a source file
 depends/imgui/imgui_impl_glfw.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/depends/imgui/imgui_impl_glfw.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/depends/imgui/imgui_impl_glfw.cpp.i
 .PHONY : depends/imgui/imgui_impl_glfw.cpp.i
 
 depends/imgui/imgui_impl_glfw.s: depends/imgui/imgui_impl_glfw.cpp.s
@@ -222,7 +222,7 @@ depends/imgui/imgui_impl_glfw.s: depends/imgui/imgui_impl_glfw.cpp.s
 
 # target to generate assembly for a file
 depends/imgui/imgui_impl_glfw.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/depends/imgui/imgui_impl_glfw.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/depends/imgui/imgui_impl_glfw.cpp.s
 .PHONY : depends/imgui/imgui_impl_glfw.cpp.s
 
 depends/imgui/imgui_impl_opengl3.o: depends/imgui/imgui_impl_opengl3.cpp.o
@@ -230,7 +230,7 @@ depends/imgui/imgui_impl_opengl3.o: depends/imgui/imgui_impl_opengl3.cpp.o
 
 # target to build an object file
 depends/imgui/imgui_impl_opengl3.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/depends/imgui/imgui_impl_opengl3.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/depends/imgui/imgui_impl_opengl3.cpp.o
 .PHONY : depends/imgui/imgui_impl_opengl3.cpp.o
 
 depends/imgui/imgui_impl_opengl3.i: depends/imgui/imgui_impl_opengl3.cpp.i
@@ -238,7 +238,7 @@ depends/imgui/imgui_impl_opengl3.i: depends/imgui/imgui_impl_opengl3.cpp.i
 
 # target to preprocess a source file
 depends/imgui/imgui_impl_opengl3.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/depends/imgui/imgui_impl_opengl3.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/depends/imgui/imgui_impl_opengl3.cpp.i
 .PHONY : depends/imgui/imgui_impl_opengl3.cpp.i
 
 depends/imgui/imgui_impl_opengl3.s: depends/imgui/imgui_impl_opengl3.cpp.s
@@ -246,7 +246,7 @@ depends/imgui/imgui_impl_opengl3.s: depends/imgui/imgui_impl_opengl3.cpp.s
 
 # target to generate assembly for a file
 depends/imgui/imgui_impl_opengl3.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/depends/imgui/imgui_impl_opengl3.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/depends/imgui/imgui_impl_opengl3.cpp.s
 .PHONY : depends/imgui/imgui_impl_opengl3.cpp.s
 
 depends/imgui/imgui_widgets.o: depends/imgui/imgui_widgets.cpp.o
@@ -254,7 +254,7 @@ depends/imgui/imgui_widgets.o: depends/imgui/imgui_widgets.cpp.o
 
 # target to build an object file
 depends/imgui/imgui_widgets.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/depends/imgui/imgui_widgets.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/depends/imgui/imgui_widgets.cpp.o
 .PHONY : depends/imgui/imgui_widgets.cpp.o
 
 depends/imgui/imgui_widgets.i: depends/imgui/imgui_widgets.cpp.i
@@ -262,7 +262,7 @@ depends/imgui/imgui_widgets.i: depends/imgui/imgui_widgets.cpp.i
 
 # target to preprocess a source file
 depends/imgui/imgui_widgets.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/depends/imgui/imgui_widgets.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/depends/imgui/imgui_widgets.cpp.i
 .PHONY : depends/imgui/imgui_widgets.cpp.i
 
 depends/imgui/imgui_widgets.s: depends/imgui/imgui_widgets.cpp.s
@@ -270,7 +270,7 @@ depends/imgui/imgui_widgets.s: depends/imgui/imgui_widgets.cpp.s
 
 # target to generate assembly for a file
 depends/imgui/imgui_widgets.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/depends/imgui/imgui_widgets.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/depends/imgui/imgui_widgets.cpp.s
 .PHONY : depends/imgui/imgui_widgets.cpp.s
 
 src/IndexBuffer.o: src/IndexBuffer.cpp.o
@@ -278,7 +278,7 @@ src/IndexBuffer.o: src/IndexBuffer.cpp.o
 
 # target to build an object file
 src/IndexBuffer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/IndexBuffer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/IndexBuffer.cpp.o
 .PHONY : src/IndexBuffer.cpp.o
 
 src/IndexBuffer.i: src/IndexBuffer.cpp.i
@@ -286,7 +286,7 @@ src/IndexBuffer.i: src/IndexBuffer.cpp.i
 
 # target to preprocess a source file
 src/IndexBuffer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/IndexBuffer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/IndexBuffer.cpp.i
 .PHONY : src/IndexBuffer.cpp.i
 
 src/IndexBuffer.s: src/IndexBuffer.cpp.s
@@ -294,7 +294,7 @@ src/IndexBuffer.s: src/IndexBuffer.cpp.s
 
 # target to generate assembly for a file
 src/IndexBuffer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/IndexBuffer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/IndexBuffer.cpp.s
 .PHONY : src/IndexBuffer.cpp.s
 
 src/Renderer.o: src/Renderer.cpp.o
@@ -302,7 +302,7 @@ src/Renderer.o: src/Renderer.cpp.o
 
 # target to build an object file
 src/Renderer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/Renderer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/Renderer.cpp.o
 .PHONY : src/Renderer.cpp.o
 
 src/Renderer.i: src/Renderer.cpp.i
@@ -310,7 +310,7 @@ src/Renderer.i: src/Renderer.cpp.i
 
 # target to preprocess a source file
 src/Renderer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/Renderer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/Renderer.cpp.i
 .PHONY : src/Renderer.cpp.i
 
 src/Renderer.s: src/Renderer.cpp.s
@@ -318,7 +318,7 @@ src/Renderer.s: src/Renderer.cpp.s
 
 # target to generate assembly for a file
 src/Renderer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/Renderer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/Renderer.cpp.s
 .PHONY : src/Renderer.cpp.s
 
 src/VertexArray.o: src/VertexArray.cpp.o
@@ -326,7 +326,7 @@ src/VertexArray.o: src/VertexArray.cpp.o
 
 # target to build an object file
 src/VertexArray.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/VertexArray.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/VertexArray.cpp.o
 .PHONY : src/VertexArray.cpp.o
 
 src/VertexArray.i: src/VertexArray.cpp.i
@@ -334,7 +334,7 @@ src/VertexArray.i: src/VertexArray.cpp.i
 
 # target to preprocess a source file
 src/VertexArray.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/VertexArray.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/VertexArray.cpp.i
 .PHONY : src/VertexArray.cpp.i
 
 src/VertexArray.s: src/VertexArray.cpp.s
@@ -342,7 +342,7 @@ src/VertexArray.s: src/VertexArray.cpp.s
 
 # target to generate assembly for a file
 src/VertexArray.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/VertexArray.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/VertexArray.cpp.s
 .PHONY : src/VertexArray.cpp.s
 
 src/VertexBuffer.o: src/VertexBuffer.cpp.o
@@ -350,7 +350,7 @@ src/VertexBuffer.o: src/VertexBuffer.cpp.o
 
 # target to build an object file
 src/VertexBuffer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/VertexBuffer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/VertexBuffer.cpp.o
 .PHONY : src/VertexBuffer.cpp.o
 
 src/VertexBuffer.i: src/VertexBuffer.cpp.i
@@ -358,7 +358,7 @@ src/VertexBuffer.i: src/VertexBuffer.cpp.i
 
 # target to preprocess a source file
 src/VertexBuffer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/VertexBuffer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/VertexBuffer.cpp.i
 .PHONY : src/VertexBuffer.cpp.i
 
 src/VertexBuffer.s: src/VertexBuffer.cpp.s
@@ -366,7 +366,7 @@ src/VertexBuffer.s: src/VertexBuffer.cpp.s
 
 # target to generate assembly for a file
 src/VertexBuffer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/VertexBuffer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/VertexBuffer.cpp.s
 .PHONY : src/VertexBuffer.cpp.s
 
 src/block.o: src/block.cpp.o
@@ -374,7 +374,7 @@ src/block.o: src/block.cpp.o
 
 # target to build an object file
 src/block.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/block.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/block.cpp.o
 .PHONY : src/block.cpp.o
 
 src/block.i: src/block.cpp.i
@@ -382,7 +382,7 @@ src/block.i: src/block.cpp.i
 
 # target to preprocess a source file
 src/block.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/block.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/block.cpp.i
 .PHONY : src/block.cpp.i
 
 src/block.s: src/block.cpp.s
@@ -390,7 +390,7 @@ src/block.s: src/block.cpp.s
 
 # target to generate assembly for a file
 src/block.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/block.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/block.cpp.s
 .PHONY : src/block.cpp.s
 
 src/chunk.o: src/chunk.cpp.o
@@ -398,7 +398,7 @@ src/chunk.o: src/chunk.cpp.o
 
 # target to build an object file
 src/chunk.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/chunk.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/chunk.cpp.o
 .PHONY : src/chunk.cpp.o
 
 src/chunk.i: src/chunk.cpp.i
@@ -406,7 +406,7 @@ src/chunk.i: src/chunk.cpp.i
 
 # target to preprocess a source file
 src/chunk.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/chunk.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/chunk.cpp.i
 .PHONY : src/chunk.cpp.i
 
 src/chunk.s: src/chunk.cpp.s
@@ -414,7 +414,7 @@ src/chunk.s: src/chunk.cpp.s
 
 # target to generate assembly for a file
 src/chunk.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/chunk.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/chunk.cpp.s
 .PHONY : src/chunk.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -422,7 +422,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -430,7 +430,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -438,7 +438,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 src/utils.o: src/utils.cpp.o
@@ -446,7 +446,7 @@ src/utils.o: src/utils.cpp.o
 
 # target to build an object file
 src/utils.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/utils.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/utils.cpp.o
 .PHONY : src/utils.cpp.o
 
 src/utils.i: src/utils.cpp.i
@@ -454,7 +454,7 @@ src/utils.i: src/utils.cpp.i
 
 # target to preprocess a source file
 src/utils.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/utils.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/utils.cpp.i
 .PHONY : src/utils.cpp.i
 
 src/utils.s: src/utils.cpp.s
@@ -462,7 +462,7 @@ src/utils.s: src/utils.cpp.s
 
 # target to generate assembly for a file
 src/utils.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab5.dir/build.make CMakeFiles/lab5.dir/src/utils.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/voxelize.dir/build.make CMakeFiles/voxelize.dir/src/utils.cpp.s
 .PHONY : src/utils.cpp.s
 
 # Help Target
@@ -473,7 +473,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... lab5"
+	@echo "... voxelize"
 	@echo "... depends/imgui/imgui.o"
 	@echo "... depends/imgui/imgui.i"
 	@echo "... depends/imgui/imgui.s"
