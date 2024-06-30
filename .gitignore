@@ -1,0 +1,5 @@
+*.ini
+textures/
+build/
+voxelize
+src/models/

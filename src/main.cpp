@@ -50,18 +50,19 @@ void camTrans(glm::vec3 &);
 void saveTextureToFile(const std::string &filename, int width, int height);
 
 GLuint nVertices;
-float scale = 1; // Change Scale of the model as needed
+float scale = 1.0; // Change Scale of the model as needed
 
-string tex_name = "banana";
+string tex_name;
 unsigned int shaderProgram, shaderProgram3;
 bool mesh = true;
 int mode_ = 4;
+float midx, midy, midz;
 
 int main() {
   // Setup window
   GLFWwindow *window = setupWindow(screen_width, screen_height);
   ImGuiIO &io = ImGui::GetIO(); // Create IO object
-  ImVec4 clearColor = ImVec4(0.8f, 0.8f, 0.8f, 1.00f);
+  ImVec4 clearColor = ImVec4(0.0f, 0.0f, 0.0f, 1.00f);
 
   // unsigned int shaderProgram = createProgram("./shaders/vshader.vs",
   // "./shaders/fshader.fs");
@@ -144,7 +145,7 @@ int main() {
         strcpy(textKeyStatus, "Key status: Ctrl + z");
         // Move camera to [0, 0, 100] i.e. => along z axis
         if (!Perspective || Perspective) {
-          camPosition = {0.0f, 0.0f, -1000.0f, 1.0f};
+          camPosition = {midx, midy, -1000.0f, 1.0f};
         }
       } else {
         strcpy(textKeyStatus, "Key status: z");
@@ -156,7 +157,7 @@ int main() {
         strcpy(textKeyStatus, "Key status: Ctrl + x");
         // Move camera to [100, 0, 0] i.e. => along x axis
         if (!Perspective || Perspective) {
-          camPosition = {-1000.0f, 0.0f, 0.0f, 1.0f};
+          camPosition = {-1000.0f, midy, midz, 1.0f};
         }
       } else {
         strcpy(textKeyStatus, "Key status: x");
@@ -170,7 +171,7 @@ int main() {
         // rolling gaze direction shouldn't be parallel to y) So Moved with some
         // offset
         if (!Perspective || Perspective) {
-          camPosition = {0.0f, -1000.0f, 0.001f, 1.0f};
+          camPosition = {midx, -1000.0f, max(0.0001f, midz), 1.0f};
         }
       }
     } 
@@ -208,7 +209,7 @@ int main() {
 
       // shaderProgram2 = createProgram("./shaders/vshadervis.vs",
       // "./shaders/fshadervis.fs"); -64.5 to 62.5 (65 on left 63 on right)
-      chunk c = chunk(voxel_dim, glm::vec3(0.0, 0.0, 0.0), true);
+      chunk c = chunk(voxel_dim, glm::vec3(-dim, -dim, -dim), true);
       for (int i = 0; i < (int)dim; i++) {
         for (int j = 0; j < (int)dim; j++) {
           for (int k = 0; k < (int)dim; k++) {
@@ -342,9 +343,7 @@ void camTrans(glm::vec3 &Change) {
 
 void setupModelTransformation(unsigned int &program) {
   // Modelling transformations (Model -> World coordinates)
-  modelT = glm::translate(
-      glm::mat4(1.0f),
-      glm::vec3(0.0, 0.0, 0.0)); // Model coordinates are the world coordinates
+  modelT = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.0, 0.0)); // Model coordinates are the world coordinates
 
   // Pass on the modelling matrix to the vertex shader
   glUseProgram(program);
@@ -359,7 +358,7 @@ void setupModelTransformation(unsigned int &program) {
 void setupViewTransformation(unsigned int &program) {
   // Viewing transformations (World -> Camera coordinates
   // Camera at (40, 20, 40)  in a right handed coordinate system
-  viewT = glm::lookAt(glm::vec3(camPosition), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+  viewT = glm::lookAt(glm::vec3(camPosition), glm::vec3(midx, midy, midz), glm::vec3(0.0, 1.0, 0.0));
 
   // Pass-on the viewing matrix to the vertex shader
   glUseProgram(program);
@@ -413,12 +412,12 @@ void saveTextureToFile(const std::string &filename, int width, int height) {
   stbi_write_png(filename.c_str(), width, height, 4, pixels.data(), 0);
 }
 
-void Rasterize(char dir, vector<glm::vec3> &bucket, GLfloat *buc, unsigned int &shape_VAO, int vVertex_attrib) {
+void Rasterize(char dir, uint bucsize, GLfloat *buc, unsigned int &shape_VAO, int vVertex_attrib) {
   int slabs = ceil((double)dim / (double)32);
 
-  camPosition = (dir == 'x') ? glm::vec4(-1000.0f, 0.0f, 0.0f, 1.0f)
-              : (dir == 'y') ? glm::vec4(0.0f, -1000.0f, 0.0001f, 1.0f)
-                             : glm::vec4(0.0f, 0.0f, -1000.0f, 1.0f);
+  camPosition = (dir == 'x') ? glm::vec4(-1000.0f, midy, midz, 1.0f)
+              : (dir == 'y') ? glm::vec4(midx, -1000.0f, max(0.0001f, midz), 1.0f)
+                             : glm::vec4(midx, midy, -1000.0f, 1.0f);
 
   setupViewTransformation(shaderProgram);
   // Generate VAO object
@@ -429,7 +428,7 @@ void Rasterize(char dir, vector<glm::vec3> &bucket, GLfloat *buc, unsigned int &
   GLuint vertex_VBO; // Vertex Buffer
   glGenBuffers(1, &vertex_VBO);
   glBindBuffer(GL_ARRAY_BUFFER, vertex_VBO);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * bucket.size() * 3, buc, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * bucsize, buc, GL_STATIC_DRAW);
   // glBufferData(GL_FRAMEBUFFER, sizeof(GLfloat)*vertex_indices.size()*3,
   // shape_vertices, GL_STATIC_DRAW);
   glEnableVertexAttribArray(vVertex_attrib);
@@ -500,7 +499,7 @@ void Rasterize(char dir, vector<glm::vec3> &bucket, GLfloat *buc, unsigned int &
       } else {
         glUniform2f(color_uniform, 3.0, pow(2, floor(32 - count)) / 256.0);
       }
-      glDrawArrays(GL_TRIANGLES, 0, bucket.size() * 3); 
+      glDrawArrays(GL_TRIANGLES, 0, bucsize); 
       count++;
     }
     saveTextureToFile(tex_name, texturedim, texturedim);
@@ -601,9 +600,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
   vector<glm::vec3> temp_vertices;
   vector<glm::vec2> temp_uvs;
   vector<glm::vec3> temp_normals;
-  int ct = 0;
 
-  scale = 1.0; // Change Scale of the model as needed
   FILE *file = LoadModel("src/models/bunny.obj");
   if (file == NULL)
     printf("File not found\n");
@@ -621,7 +618,6 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
       fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
       // printf("%f %f %f\n", vertex.x, vertex.y, vertex.z );
       temp_vertices.push_back(vertex);
-      ct++;
     }
 
     else if (strcmp(head, "vt") == 0) {
@@ -636,29 +632,50 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
       fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
       // printf("%f %f %f\n", normal.x, normal.y, normal.z );
       temp_normals.push_back(normal);
-    }
-
+    } 
+    
     else if (strcmp(head, "f") == 0) {
-      string vertex1, vertex2, vertex3;
-      int vertexIndex[3], uvIndex[3], normalIndex[3];
-      int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n",
-                           &vertexIndex[0], &uvIndex[0], &normalIndex[0],
-                           &vertexIndex[1], &uvIndex[1], &normalIndex[1],
-                           &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
-      if (matches != 9) {
-        printf("OBJ File may not contain texture coordinates or normal "
-               "coordinates\n");
+          int vertexIndex[3], uvIndex[3], normalIndex[3];
+          long int pos = ftell(file);
+          // Try to read faces in the format of v/t/n
+          int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", 
+                              &vertexIndex[0], &uvIndex[0], &normalIndex[0], 
+                              &vertexIndex[1], &uvIndex[1], &normalIndex[1], 
+                              &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
+                              
+          if (matches == 9) {
+              vertex_indices.push_back(vertexIndex[0]);
+              vertex_indices.push_back(vertexIndex[1]);
+              vertex_indices.push_back(vertexIndex[2]);
+              uv_indices.push_back(uvIndex[0]);
+              uv_indices.push_back(uvIndex[1]);
+              uv_indices.push_back(uvIndex[2]);
+              normal_indices.push_back(normalIndex[0]);
+              normal_indices.push_back(normalIndex[1]);
+              normal_indices.push_back(normalIndex[2]);
+          } else {
+              // Reset file pointer to retry parsing in different format
+              fseek (file, pos, SEEK_SET);
+              
+              // Try to read faces in the format of v//n
+              matches = fscanf(file, "%d//%d %d//%d %d//%d\n", 
+                              &vertexIndex[0], &normalIndex[0], 
+                              &vertexIndex[1], &normalIndex[1], 
+                              &vertexIndex[2], &normalIndex[2]);
+                              
+              if (matches == 6) {
+                  vertex_indices.push_back(vertexIndex[0]);
+                  normal_indices.push_back(normalIndex[0]);
+                  vertex_indices.push_back(vertexIndex[1]);
+                  normal_indices.push_back(normalIndex[1]);
+                  vertex_indices.push_back(vertexIndex[2]);
+                  normal_indices.push_back(normalIndex[2]);
+              } else {
+                  // Handle other formats or errors appropriately
+                  fprintf(stderr, "Unsupported face format or error occurred\n");
+              }
+          }
       }
-      vertex_indices.push_back(vertexIndex[0]);
-      vertex_indices.push_back(vertexIndex[1]);
-      vertex_indices.push_back(vertexIndex[2]);
-      uv_indices.push_back(uvIndex[0]);
-      uv_indices.push_back(uvIndex[1]);
-      uv_indices.push_back(uvIndex[2]);
-      normal_indices.push_back(normalIndex[0]);
-      normal_indices.push_back(normalIndex[1]);
-      normal_indices.push_back(normalIndex[2]);
-    }
   }
   fclose(file);
 
@@ -671,14 +688,14 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
     exit(0);
   }
 
-  GLfloat *shape_vertices = new GLfloat[vertex_indices.size() * 3];
-  GLfloat *vertex_normals = new GLfloat[normal_indices.size() * 3];
+  GLfloat shape_vertices[vertex_indices.size() * 3];
+  GLfloat vertex_normals[normal_indices.size() * 3];
 
   nVertices = vertex_indices.size() * 3;
 
   for (int i = 0; i < vertex_indices.size(); i++) {
     int vertexIndex = vertex_indices[i];
-    shape_vertices[i * 3] = temp_vertices[vertexIndex - 1][0] * scale;
+    shape_vertices[i * 3 + 0] = temp_vertices[vertexIndex - 1][0] * scale;
     shape_vertices[i * 3 + 1] = temp_vertices[vertexIndex - 1][1] * scale;
     shape_vertices[i * 3 + 2] = temp_vertices[vertexIndex - 1][2] * scale;
 
@@ -692,12 +709,15 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
     Box_zu = std::max((GLint)std::ceil(shape_vertices[i * 3]), Box_zu);
   }
 
-  // printf("%d %d %d   %d %d %d\n", Box_xl, Box_yl, Box_zl, Box_xu, Box_yu, Box_zu);
+  printf("%d %d %d   %d %d %d\n", Box_xl, Box_yl, Box_zl, Box_xu, Box_yu, Box_zu);
   int BBoxDim = 32 * ceil(max(Box_xu - Box_xl, max(Box_yu - Box_yl, Box_zu - Box_zl)) / 32.0);
   voxel_count = BBoxDim * BBoxDim * BBoxDim;
   dim = BBoxDim / voxel_dim;
   cout << "Dimension of Grid: " << dim << endl;
   Grid.assign(dim, vector<vector<bool>>(dim, vector<bool>(dim, false)));
+  midx = (Box_xl + Box_xu) / 2.0;
+  midy = (Box_yl + Box_yu) / 2.0;
+  midz = (Box_zl + Box_zu) / 2.0;
   // printf("%d\n", voxel_count);
 
   // generated normals for the triangle mesh
@@ -795,13 +815,10 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
     }
   }
 
-  delete[] shape_vertices;
-  delete[] vertex_normals;
-
   // RGBA
-  Rasterize('x', bucketX, bucX, shape_VAO, vVertex_attrib);
-  Rasterize('y', bucketY, bucY, shape_VAO, vVertex_attrib);
-  Rasterize('z', bucketZ, bucZ, shape_VAO, vVertex_attrib);
+  Rasterize('x', bucketX.size() * 3, bucX, shape_VAO, vVertex_attrib);
+  Rasterize('y', bucketY.size() * 3, bucY, shape_VAO, vVertex_attrib);
+  Rasterize('z', bucketZ.size() * 3, bucZ, shape_VAO, vVertex_attrib);
 
   // Clearing the buffer
   for (int i = 0; i < dim; i++) {
