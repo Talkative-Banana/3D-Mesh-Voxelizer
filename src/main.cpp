@@ -15,8 +15,6 @@
 #include "IndexBuffer.h"
 #include "VertexBufferLayout.h"
 
-// uniform int numRenderTargets;
-
 // Globals
 int dim;
 int texturedim = 256;
@@ -24,7 +22,6 @@ int screen_width = 1000, screen_height = 1000;
 GLint vModel_uniform, vView_uniform, vProjection_uniform;
 GLint halfPxsize_uniform, color_uniform, voxel_dim_uniform;
 glm::mat4 modelT, viewT, projectionT; // The model, view and projection transformations
-// TODO:
 GLint voxel_dim = 2, Box_xl, Box_xu, Box_yl, Box_yu, Box_zl, Box_zu, voxel_count;
 vector<vector<vector<bool>>> Grid;
 GLint voxel_countx, voxel_county, voxel_countz;
@@ -53,7 +50,7 @@ GLuint nVertices;
 float scale = 1.0; // Change Scale of the model as needed
 
 string tex_name;
-unsigned int shaderProgram, shaderProgram3;
+unsigned int shaderProgram1, shaderProgram2;
 bool mesh = true;
 int mode_ = 4;
 float midx, midy, midz;
@@ -64,24 +61,24 @@ int main() {
   ImGuiIO &io = ImGui::GetIO(); // Create IO object
   ImVec4 clearColor = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
 
-  // unsigned int shaderProgram = createProgram("./shaders/vshader.vs",
+  // unsigned int shaderProgram1 = createProgram("./shaders/vshader.vs",
   // "./shaders/fshader.fs");
-  shaderProgram = createProgram("./shaders/vshader1.vs", "./shaders/fshader1.fs",
+  shaderProgram1 = createProgram("./shaders/vshader1.vs", "./shaders/fshader1.fs",
                     "./shaders/gshader1.gs");
 
-  shaderProgram3 = createProgram("./shaders/vshader.vs", "./shaders/fshader.fs");
+  shaderProgram2 = createProgram("./shaders/vshader.vs", "./shaders/fshader.fs");
 
-  halfPxsize_uniform = glGetUniformLocation(shaderProgram, "halfPixelSize");
+  halfPxsize_uniform = glGetUniformLocation(shaderProgram1, "halfPixelSize");
   if (halfPxsize_uniform == -1) {
     fprintf(stderr, "Could not bind location: halfPixelSize.\n");
   }
 
-  color_uniform = glGetUniformLocation(shaderProgram, "color");
+  color_uniform = glGetUniformLocation(shaderProgram1, "color");
   if (color_uniform == -1) {
     fprintf(stderr, "Could not bind location: color.\n");
   }
 
-  glUseProgram(shaderProgram);
+  glUseProgram(shaderProgram1);
   // TODO:
   glUniform2f(halfPxsize_uniform, 1.0/256, 1.0/256);
 
@@ -198,13 +195,13 @@ int main() {
     }
     ImGui::End();
 
-    // glUseProgram(shaderProgram);
+    // glUseProgram(shaderProgram1);
     if (mesh) {
-      setupModelTransformation(shaderProgram);
+      setupModelTransformation(shaderProgram1);
       camTrans(change);
-      setupViewTransformation(shaderProgram);
-      setupProjectionTransformation(shaderProgram);
-      createMeshObject(shaderProgram, VAO);
+      setupViewTransformation(shaderProgram1);
+      setupProjectionTransformation(shaderProgram1);
+      createMeshObject(shaderProgram1, VAO);
       mesh = false;
 
       // shaderProgram2 = createProgram("./shaders/vshadervis.vs",
@@ -247,10 +244,10 @@ int main() {
       glBindBuffer(GL_ARRAY_BUFFER, 0);
       glBindVertexArray(0); //Unbind the VAO to disable changes outside this function.
     }
-    setupModelTransformation(shaderProgram3);
+    setupModelTransformation(shaderProgram2);
     camTrans(change);
-    setupViewTransformation(shaderProgram3);
-    setupProjectionTransformation(shaderProgram3);
+    setupViewTransformation(shaderProgram2);
+    setupProjectionTransformation(shaderProgram2);
 
     // Rendering
     ImGui::Render();
@@ -265,7 +262,7 @@ int main() {
     glFrontFace(GL_CCW);
 
     // Create VBOs for the VAO
-    glUseProgram(shaderProgram3);
+    glUseProgram(shaderProgram2);
     glViewport(0, 0, 1000, 1000); // Render on the whole framebuffer, complete from the
     // lower left corner to the upper right
     chunkva.Bind();
@@ -419,7 +416,7 @@ void Rasterize(char dir, uint bucsize, GLfloat *buc, unsigned int &shape_VAO, in
               : (dir == 'y') ? glm::vec4(midx, -1000.0f, max(0.0001f, midz), 1.0f)
                              : glm::vec4(midx, midy, -1000.0f, 1.0f);
 
-  setupViewTransformation(shaderProgram);
+  setupViewTransformation(shaderProgram1);
   // Generate VAO object
   glGenVertexArrays(1, &shape_VAO);
   glBindVertexArray(shape_VAO);
@@ -484,7 +481,7 @@ void Rasterize(char dir, uint bucsize, GLfloat *buc, unsigned int &shape_VAO, in
     int count = 0;
     for (Fplane = SrtPlane + voxel_dim; Fplane <= SrtPlane + slab_dep; Fplane += voxel_dim) {
       Nplane = Fplane - voxel_dim;
-      setupProjectionTransformation(shaderProgram);
+      setupProjectionTransformation(shaderProgram1);
       // 32 total
       // first 8 will go in R
       // then  8 will go in G
