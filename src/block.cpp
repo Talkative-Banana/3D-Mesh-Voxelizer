@@ -10,19 +10,71 @@ block::block(GLuint s, glm::vec3 pos, GLboolean solid){
 block::~block(){}
 
 void block::GenerateVerticies(){
-    GLfloat hside = side / 2.0;
-    GLfloat x = position.x, y = position.y, z = position.z;
+    GLfloat hside = side / 2;
+    GLuint x = position.x, y = position.y, z = position.z;
     // Vertex Position
-    // Back Face
-    verticies.push_back({x - hside, y - hside, z - hside}); // 0 
-    verticies.push_back({x - hside, y + hside, z - hside}); // 1
-    verticies.push_back({x + hside, y + hside, z - hside}); // 2
-    verticies.push_back({x + hside, y - hside, z - hside}); // 3
-    // Front Face
-    verticies.push_back({x - hside, y - hside, z + hside}); // 4
-    verticies.push_back({x - hside, y + hside, z + hside}); // 5
-    verticies.push_back({x + hside, y + hside, z + hside}); // 6
-    verticies.push_back({x + hside, y - hside, z + hside}); // 7
+    // 24 verticies per block
+
+    // Back Face 0123
+    verticies.push_back({x - hside, y - hside, z - hside, 0.86}); // 0
+    // verticies.push_back({x - hside, y - hside, z - hside, x, y, z}); // 0 0
+    verticies.push_back({x - hside, y + hside, z - hside, 0.86}); // 1
+    // verticies.push_back({x - hside, y + hside, z - hside, x, y, z}); // 1 1
+    verticies.push_back({x + hside, y + hside, z - hside, 0.86}); // 2
+    // verticies.push_back({x + hside, y + hside, z - hside, x, y, z}); // 2 2
+    verticies.push_back({x + hside, y - hside, z - hside, 0.86}); // 3
+    // verticies.push_back({x + hside, y - hside, z - hside, x, y, z}); // 3 3
+
+    // Front Face 4567
+    verticies.push_back({x - hside, y - hside, z + hside, 0.86}); // 4
+    // verticies.push_back({x - hside, y - hside, z + hside, x, y, z}); // 4 4
+    verticies.push_back({x - hside, y + hside, z + hside, 0.86}); // 5
+    // verticies.push_back({x - hside, y + hside, z + hside, x, y, z}); // 5 5
+    verticies.push_back({x + hside, y + hside, z + hside, 0.86}); // 6
+    // verticies.push_back({x + hside, y + hside, z + hside, x, y, z}); // 6 6
+    verticies.push_back({x + hside, y - hside, z + hside, 0.86}); // 7
+    // verticies.push_back({x + hside, y - hside, z + hside, x, y, z}); // 7 7
+
+    // Left Face 0154
+    verticies.push_back({x - hside, y - hside, z - hside, 0.71}); // 0
+    // verticies.push_back({x - hside, y - hside, z - hside, x, y, z}); // 0 8
+    verticies.push_back({x - hside, y + hside, z - hside, 0.71}); // 1
+    // verticies.push_back({x - hside, y + hside, z - hside, x, y, z}); // 1 9
+    verticies.push_back({x - hside, y + hside, z + hside, 0.71}); // 5
+    // verticies.push_back({x - hside, y + hside, z + hside, x, y, z}); // 5 10
+    verticies.push_back({x - hside, y - hside, z + hside, 0.71}); // 4
+    // verticies.push_back({x - hside, y - hside, z + hside, x, y, z}); // 4 11
+
+    // Right Face 7623
+    verticies.push_back({x + hside, y - hside, z + hside, 0.71}); // 7
+    // verticies.push_back({x + hside, y - hside, z + hside, x, y, z}); // 7 12
+    verticies.push_back({x + hside, y + hside, z + hside, 0.71}); // 6
+    // verticies.push_back({x + hside, y + hside, z + hside, x, y, z}); // 6 13
+    verticies.push_back({x + hside, y + hside, z - hside, 0.71}); // 2
+    // verticies.push_back({x + hside, y + hside, z - hside, x, y, z}); // 2 14
+    verticies.push_back({x + hside, y - hside, z - hside, 0.71}); // 3
+    // verticies.push_back({x + hside, y - hside, z - hside, x, y, z}); // 3 15
+
+    // Top Face 5126
+    verticies.push_back({x - hside, y + hside, z + hside, 0.30}); // 5
+    // verticies.push_back({x - hside, y + hside, z + hside, x, y, z}); // 5 16
+    verticies.push_back({x - hside, y + hside, z - hside, 0.30}); // 1
+    // verticies.push_back({x - hside, y + hside, z - hside, x, y, z}); // 1 17
+    verticies.push_back({x + hside, y + hside, z - hside, 0.30}); // 2
+    // verticies.push_back({x + hside, y + hside, z - hside, x, y, z}); // 2 18
+    verticies.push_back({x + hside, y + hside, z + hside, 0.30}); // 6
+    // verticies.push_back({x + hside, y + hside, z + hside, x, y, z}); // 6 19
+
+    // Bottom Face 0473
+    verticies.push_back({x - hside, y - hside, z - hside, 0.30}); // 0
+    // verticies.push_back({x - hside, y - hside, z - hside, x, y, z}); // 0 20
+    verticies.push_back({x - hside, y - hside, z + hside, 0.30}); // 4
+    // verticies.push_back({x - hside, y - hside, z + hside, x, y, z}); // 4 21
+    verticies.push_back({x + hside, y - hside, z + hside, 0.30}); // 7
+    // verticies.push_back({x + hside, y - hside, z + hside, x, y, z}); // 7 22
+    verticies.push_back({x + hside, y - hside, z - hside, 0.30}); // 3
+    // verticies.push_back({x + hside, y - hside, z - hside, x, y, z}); // 3 23
+    
 }
 
 void block::RenderFace(GLuint face){
@@ -50,11 +102,11 @@ void block::RenderFace(GLuint face){
 void block::Render(GLuint mask){
     if(!is_solid) return;
     GenerateVerticies();
-    for(int i = 0; i < 8; i++){
-        // Position
-        rendervert.push_back(verticies[i][0]);
-        rendervert.push_back(verticies[i][1]);
-        rendervert.push_back(verticies[i][2]);
+    for(int i = 0; i < 24; i++){
+        // Texture-Center-Position
+        for(int j = 0; j < 4; j++){
+            rendervert.push_back(verticies[i][j]);
+        }
     }
 
     GLuint idx = 0;

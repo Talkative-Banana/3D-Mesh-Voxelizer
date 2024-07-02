@@ -62,7 +62,7 @@ int main() {
   // Setup window
   GLFWwindow *window = setupWindow(screen_width, screen_height);
   ImGuiIO &io = ImGui::GetIO(); // Create IO object
-  ImVec4 clearColor = ImVec4(0.0f, 0.0f, 0.0f, 1.00f);
+  ImVec4 clearColor = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
 
   // unsigned int shaderProgram = createProgram("./shaders/vshader.vs",
   // "./shaders/fshader.fs");
@@ -209,7 +209,7 @@ int main() {
 
       // shaderProgram2 = createProgram("./shaders/vshadervis.vs",
       // "./shaders/fshadervis.fs"); -64.5 to 62.5 (65 on left 63 on right)
-      chunk c = chunk(voxel_dim, glm::vec3(-dim, -dim, -dim), true);
+      chunk c = chunk(voxel_dim, glm::vec3(0, 0, 0), true);
       for (int i = 0; i < (int)dim; i++) {
         for (int j = 0; j < (int)dim; j++) {
           for (int k = 0; k < (int)dim; k++) {
@@ -217,7 +217,9 @@ int main() {
           }
         }
       }
+      std::cout << "Hlo1\n";
       c.Render(); // <= Needs Optimization
+      std::cout << "Hlo2\n";
 
       GLuint vcnt = c.rendervert.size(), icnt = c.indices.size(), cnt = c.count;
       // Allocate Heap memory for verticies and indices
@@ -226,17 +228,17 @@ int main() {
       // Assign the memory
       for(int i = 0; i < vcnt; i++) cube_vertices[i] = c.rendervert[i];
       for(int i = 0; i < icnt; i++) cube_indices[i] = c.indices[i];
-      std::cout << "[VRAM Usage: " << (1.0 * (3 * vcnt * sizeof(GLfloat) + icnt * sizeof(GLuint))) / 1e6 << " mb]" << std::endl;
+      std::cout << "[VRAM Usage: " << (1.0 * (4 * vcnt * sizeof(GLfloat) + icnt * sizeof(GLuint))) / 1e6 << " mb]" << std::endl;
 
       //Create VBOs for the VAO
-      int numofbytespervertex = 3;
-      int numofvertexperblock = 8;
-      cntblocks = cnt;
+      int numofbytespervertex = 4;
+      int numofvertexperblock = 24;
+      cntblocks = icnt;
       VertexBuffer vb(cube_vertices, cnt * numofbytespervertex * numofvertexperblock * sizeof(GLfloat));
       // Create Layout for VAO
       // Position information (data + format)
       VertexBufferLayout layout;
-      layout.Push(GL_FLOAT, 3);
+      layout.Push(GL_FLOAT, 4);
       // Add vb and layout to vao
       chunkva.AddBuffer(vb, layout);
       // Create IBOs for the VAO
@@ -269,7 +271,7 @@ int main() {
     glViewport(0, 0, 1000, 1000); // Render on the whole framebuffer, complete from the
     // lower left corner to the upper right
     chunkva.Bind();
-		glDrawElements(GL_LINES, cntblocks * 12 * 3, GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, cntblocks, GL_UNSIGNED_INT, nullptr);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     glfwSwapBuffers(window);

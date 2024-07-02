@@ -86,7 +86,7 @@ void chunk::Render(){
                 std::vector<GLuint> blockindices = blocks[i][j][k]->indices;
                 for(auto x : blockrendervert) rendervert.push_back(x);
                 for(auto x : blockindices) indices.push_back(idx + x);
-                idx += 8, count++;
+                idx += 24, count++;
             }
         }
     }
