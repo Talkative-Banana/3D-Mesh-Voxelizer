@@ -217,9 +217,7 @@ int main() {
           }
         }
       }
-      std::cout << "Hlo1\n";
       c.Render(); // <= Needs Optimization
-      std::cout << "Hlo2\n";
 
       GLuint vcnt = c.rendervert.size(), icnt = c.indices.size(), cnt = c.count;
       // Allocate Heap memory for verticies and indices

@@ -1,11 +1,11 @@
 #!/bin/bash
 rm -rf build
-rm lab5
+rm voxelize
 mkdir build
 cd build
 cmake ..
 make -j 4
 cd ..
-rm -r textures
+rm -rf textures
 mkdir textures
 ./voxelize

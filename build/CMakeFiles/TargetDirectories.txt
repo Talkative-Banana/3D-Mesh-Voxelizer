@@ -1,3 +1,0 @@
-/home/lucky/Computer_Graphics/Project_GitHub/build/CMakeFiles/voxelize.dir
-/home/lucky/Computer_Graphics/Project_GitHub/build/CMakeFiles/edit_cache.dir
-/home/lucky/Computer_Graphics/Project_GitHub/build/CMakeFiles/rebuild_cache.dir
