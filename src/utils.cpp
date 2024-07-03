@@ -238,7 +238,7 @@ GLFWwindow* setupWindow(int width, int height)
 
     // Create window with graphics context
     glfwWindowHint(GLFW_SAMPLES, 4);
-    GLFWwindow* window = glfwCreateWindow(width, height, "Lab 5: Implementing Shaders", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(width, height, "Voxelizer", NULL, NULL);
     if (window == NULL)
         exit(0);
     glfwMakeContextCurrent(window);

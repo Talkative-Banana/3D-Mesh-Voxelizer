@@ -17,8 +17,8 @@
 #include "VertexBufferLayout.h"
 
 // Globals
-int dim = 256; // Update it as per requirement like 32, 64, 128, 256, 512 Note [512 resolution takes longer]
-const char* modelpath = "src/models/bunny.obj"; // Specify Model's Path
+int dim = 512; // Update it as per requirement like 32, 64, 128, 256, 512 Note [512 resolution takes longer]
+const char* modelpath = "src/models/buddha.obj"; // Specify Model's Path
 GLint vModel_uniform, vView_uniform, vProjection_uniform;
 GLint halfPxsize_uniform, color_uniform;
 glm::mat4 modelT, viewT, projectionT; // The model, view and projection transformations
@@ -59,7 +59,7 @@ int main() {
   // Setup window
   GLFWwindow *window = setupWindow(screen_width, screen_height);
   ImGuiIO &io = ImGui::GetIO(); // Create IO object
-  ImVec4 clearColor = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
+  ImVec4 clearColor = ImVec4(0.0f, 0.0f, 0.0f, 1.00f);
 
   // unsigned int shaderProgram1 = createProgram("./shaders/vshader.vs",
   // "./shaders/fshader.fs");
