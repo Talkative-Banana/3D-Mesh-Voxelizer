@@ -4,6 +4,7 @@
 #include <./stb/stb_image.h>
 #include <./stb/stb_image_write.h>
 
+#include <chrono>
 #include "string.h"
 #include <thread>
 #include "utils.h"
@@ -16,25 +17,33 @@
 #include "VertexBufferLayout.h"
 
 // Globals
-int dim;
-int texturedim = 256;
-int screen_width = 1000, screen_height = 1000;
+int dim = 256; // Update it as per requirement like 32, 64, 128, 256, 512 Note [512 resolution takes longer]
+const char* modelpath = "src/models/bunny.obj"; // Specify Model's Path
 GLint vModel_uniform, vView_uniform, vProjection_uniform;
-GLint halfPxsize_uniform, color_uniform, voxel_dim_uniform;
+GLint halfPxsize_uniform, color_uniform;
 glm::mat4 modelT, viewT, projectionT; // The model, view and projection transformations
-GLint voxel_dim = 2, Box_xl, Box_xu, Box_yl, Box_yu, Box_zl, Box_zu, voxel_count;
+GLint Box_xl, Box_xu, Box_yl, Box_yu, Box_zl, Box_zu, voxel_count; // All these will be computed on fly
+GLfloat voxel_dim;
 vector<vector<vector<bool>>> Grid;
 GLint voxel_countx, voxel_county, voxel_countz;
+const int texturedim = 512;
+int screen_width = 1000, screen_height = 1000;
 glm::vec4 color = glm::vec4(0.0, 0.0, 0.0, 0.0);
 
-GLfloat Nplane = -100.f, Fplane = -13200.f;
-
+GLfloat Nplane, Fplane;
 double oldX, oldY, currentX, currentY;
 bool isDragging = false;
 glm::vec4 camPosition;
 char textKeyStatus[256];
 float speed = 5.0f;
 bool Perspective = false;
+GLuint nVertices;
+float scale;
+string tex_name;
+unsigned int shaderProgram1, shaderProgram2;
+bool voxelize = true;
+int mode_ = 4;
+float midx, midy, midz;
 
 FILE *LoadModel(const char *);
 void createMeshObject(unsigned int &, unsigned int &);
@@ -45,15 +54,6 @@ void setupProjectionTransformation(unsigned int &);
 glm::vec3 getTrackBallVector(double x, double y);
 void camTrans(glm::vec3 &);
 void saveTextureToFile(const std::string &filename, int width, int height);
-
-GLuint nVertices;
-float scale = 1.0; // Change Scale of the model as needed
-
-string tex_name;
-unsigned int shaderProgram1, shaderProgram2;
-bool mesh = true;
-int mode_ = 4;
-float midx, midy, midz;
 
 int main() {
   // Setup window
@@ -175,7 +175,7 @@ int main() {
     if (ImGui::IsKeyDown(ImGui::GetKeyIndex(ImGuiKey_C))) {
       strcpy(textKeyStatus, "Key status: C");
       mode_ = (mode_ + 1) % 4;
-      mesh = true;
+      voxelize = true;
     } else {
       strcpy(textKeyStatus, "Key status:");
     }
@@ -196,13 +196,13 @@ int main() {
     ImGui::End();
 
     // glUseProgram(shaderProgram1);
-    if (mesh) {
+    if (voxelize) {
       setupModelTransformation(shaderProgram1);
       camTrans(change);
       setupViewTransformation(shaderProgram1);
       setupProjectionTransformation(shaderProgram1);
       createMeshObject(shaderProgram1, VAO);
-      mesh = false;
+      voxelize = false;
 
       // shaderProgram2 = createProgram("./shaders/vshadervis.vs",
       // "./shaders/fshadervis.fs"); -64.5 to 62.5 (65 on left 63 on right)
@@ -223,8 +223,8 @@ int main() {
       // Assign the memory
       for(int i = 0; i < vcnt; i++) cube_vertices[i] = c.rendervert[i];
       for(int i = 0; i < icnt; i++) cube_indices[i] = c.indices[i];
-      std::cout << "[VRAM Usage: " << (1.0 * (4 * vcnt * sizeof(GLfloat) + icnt * sizeof(GLuint))) / 1e6 << " mb]" << std::endl;
-
+      std::cout << "[VRAM Usage: " << (1.0 * (4 * vcnt * sizeof(GLfloat) + icnt * sizeof(GLuint))) / 1e6 << " b]\n";
+      
       //Create VBOs for the VAO
       int numofbytespervertex = 4;
       int numofvertexperblock = 24;
@@ -257,9 +257,6 @@ int main() {
     glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_FRONT);
-    glFrontFace(GL_CCW);
 
     // Create VBOs for the VAO
     glUseProgram(shaderProgram2);
@@ -369,13 +366,13 @@ void setupViewTransformation(unsigned int &program) {
 
 void setupProjectionTransformation(unsigned int &program) {
   // Projection transformation
-  //  mesh = true;
-  if (mesh) {
+  //  voxelize = true;
+  if (voxelize) {
     projectionT = glm::ortho(-256.0f, 256.0f, -256.0f, 256.0f, Nplane, Fplane);
   } else {
-    projectionT = glm::perspective(45.0f, (GLfloat)screen_width / (GLfloat)screen_height, 0.1f, 1000.0f);
+    projectionT = glm::perspective(45.0f, (GLfloat)screen_width / (GLfloat)screen_height, 0.1f, 2000.0f);
   }
-  // mesh = false;
+  // voxelize = false;
   // projectionT = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, 12.0f, 13.0f);
   // projectionT = glm::ortho(-255.0f, 256.0f, -255.0f, 256.0f, 20.0f, 376.0f);
   // Pass on the projection matrix to the vertex shader
@@ -438,13 +435,12 @@ void Rasterize(char dir, uint bucsize, GLfloat *buc, unsigned int &shape_VAO, in
   glGenFramebuffers(1, &FramebufferName);
   glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
 
-  int offset = dir == 'x' ? Box_xu - dim * voxel_dim : dir == 'y' ? Box_yu - dim * voxel_dim : Box_zu - dim * voxel_dim;
+  int offset = dir == 'x' ? Box_xl : dir == 'y' ? Box_yl : Box_zl;
   for (int slab = 1; slab <= slabs; slab++) {
     int slab_len = texturedim, slab_wid = texturedim, slab_dep = 32 * voxel_dim;
     // int nplane = offset + 32 * voxel_dim * (slab - 1);
-    int SrtPlane = 1000 - abs(offset) + (slab_dep * (slab - 1));
-    int EndPlane = SrtPlane + (slabs * slab_dep) - (slab_dep * (slab - 1)); // const
-
+    int SrtPlane = 1000 - abs(offset) + (slab_dep * (slab - 1)); // 1000 because orthographic projection from -1000
+    
     tex_name = "./textures/" + to_string(slab) + dir;
     // The texture we're going to render to
     GLuint renderedTexture;
@@ -511,7 +507,7 @@ void Rasterize(char dir, uint bucsize, GLfloat *buc, unsigned int &shape_VAO, in
 }
 
 void BatchRender(string dir) {
-  int slabs = dim / 32;
+  int slabs = ceil((double)dim / (double)32);
   for (int slab = 1; slab <= slabs; slab++) {
     tex_name = "./textures/" + to_string(slab) + dir;
     int loadlen = texturedim, loadbre = texturedim, loadch = 4;
@@ -581,7 +577,7 @@ void BatchRender(string dir) {
       }
       stbi_image_free(data);
     } else {
-      std::cout << "Failed to load texture" << std::endl;
+      std::cout << "Failed to load texture\n";
       perror("Err: ");
     }
   }
@@ -598,7 +594,7 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
   vector<glm::vec2> temp_uvs;
   vector<glm::vec3> temp_normals;
 
-  FILE *file = LoadModel("src/models/bunny.obj");
+  FILE *file = LoadModel(modelpath);
   if (file == NULL)
     printf("File not found\n");
 
@@ -692,6 +688,25 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
 
   for (int i = 0; i < vertex_indices.size(); i++) {
     int vertexIndex = vertex_indices[i];
+    shape_vertices[i * 3 + 0] = temp_vertices[vertexIndex - 1][0];
+    shape_vertices[i * 3 + 1] = temp_vertices[vertexIndex - 1][1];
+    shape_vertices[i * 3 + 2] = temp_vertices[vertexIndex - 1][2];
+
+    Box_xl = std::min((GLint)(std::floor(shape_vertices[i * 3])), Box_xl);
+    Box_xu = std::max((GLint)std::ceil(shape_vertices[i * 3]), Box_xu);
+
+    Box_yl = std::min((GLint)std::floor(shape_vertices[i * 3 + 1]), Box_yl);
+    Box_yu = std::max((GLint)std::ceil(shape_vertices[i * 3 + 1]), Box_yu);
+
+    Box_zl = std::min((GLint)std::floor(shape_vertices[i * 3]), Box_zl);
+    Box_zu = std::max((GLint)std::ceil(shape_vertices[i * 3]), Box_zu);
+  }
+
+  scale = max(1, dim / max(Box_xu - Box_xl, max(Box_yu - Box_yl, Box_zu - Box_zl)));
+  std::cout << "Scale:" << scale << "\n";
+
+  for (int i = 0; i < vertex_indices.size(); i++) {
+    int vertexIndex = vertex_indices[i];
     shape_vertices[i * 3 + 0] = temp_vertices[vertexIndex - 1][0] * scale;
     shape_vertices[i * 3 + 1] = temp_vertices[vertexIndex - 1][1] * scale;
     shape_vertices[i * 3 + 2] = temp_vertices[vertexIndex - 1][2] * scale;
@@ -706,11 +721,11 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
     Box_zu = std::max((GLint)std::ceil(shape_vertices[i * 3]), Box_zu);
   }
 
-  printf("%d %d %d   %d %d %d\n", Box_xl, Box_yl, Box_zl, Box_xu, Box_yu, Box_zu);
-  int BBoxDim = 32 * ceil(max(Box_xu - Box_xl, max(Box_yu - Box_yl, Box_zu - Box_zl)) / 32.0);
+  printf("Bounding Box Dimensions[x0, y0, z0, x1, y1, z1]: %d %d %d   %d %d %d\n", Box_xl, Box_yl, Box_zl, Box_xu, Box_yu, Box_zu);
+  int BBoxDim = 32 * ceil(max(Box_xu - Box_xl, max(Box_yu - Box_yl, Box_zu - Box_zl)) / 32.0f);
   voxel_count = BBoxDim * BBoxDim * BBoxDim;
-  dim = BBoxDim / voxel_dim;
-  cout << "Dimension of Grid: " << dim << endl;
+  voxel_dim = (1.0 * BBoxDim) / dim;
+  cout << "Dimension of Voxel: " << voxel_dim << "\n";
   Grid.assign(dim, vector<vector<bool>>(dim, vector<bool>(dim, false)));
   midx = (Box_xl + Box_xu) / 2.0;
   midy = (Box_yl + Box_yu) / 2.0;
@@ -817,14 +832,6 @@ void createMeshObject(unsigned int &program, unsigned int &shape_VAO) {
   Rasterize('y', bucketY.size() * 3, bucY, shape_VAO, vVertex_attrib);
   Rasterize('z', bucketZ.size() * 3, bucZ, shape_VAO, vVertex_attrib);
 
-  // Clearing the buffer
-  for (int i = 0; i < dim; i++) {
-    for (int j = 0; j < dim; j++) {
-      for (int k = 0; k < dim; k++) {
-        Grid[i][j][k] = false;
-      }
-    }
-  }
 
   if (mode_ == 1) {
     cout << "Rendering Along X axis\n";

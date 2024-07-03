@@ -10,6 +10,6 @@ uniform mat4 vProjection;
 out float ai;
 
 void main() {
-	gl_Position = vProjection * vView * vModel * vec4(vVertex.x - 256.0, vVertex.y - 256.0, vVertex.z - 256.0, 1.0);
+	gl_Position = vProjection * vView * vModel * vec4(vVertex.x - 160.0, vVertex.y - 160.0, vVertex.z - 160.0, 1.0);
 	ai = vVertex.w;
 }

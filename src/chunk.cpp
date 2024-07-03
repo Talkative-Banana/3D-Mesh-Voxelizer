@@ -1,9 +1,10 @@
 #include "Renderer.h"
 #include "chunk.h"
 
-chunk::chunk(GLuint s, glm::vec3 position, GLboolean display){
+chunk::chunk(GLfloat s, const glm::vec3 position, GLboolean display){
     side = s;
     count = 0;
+    BIndex = {0, 511, 0, 511, 0, 511}; // minx maxx miny maxy minz maxz
     chunkpos = position;
     displaychunk = display;
     memset(filled, 0, sizeof filled);
@@ -11,8 +12,8 @@ chunk::chunk(GLuint s, glm::vec3 position, GLboolean display){
 
 chunk::~chunk(){}
 
- GLboolean isSolid(std::vector<GLint> position, GLboolean (&filled)[256][256][256]){
-    if((position[0] >= 0) && (position[0] < 256) && (position[1] >= 0) && (position[1] < 256) && (position[2] >= 0) && (position[2] < 256)){
+static GLboolean isSolid(const std::vector<GLint> position, const GLboolean (&filled)[512][512][512]){
+    if((position[0] >= 0) && (position[0] < 512) && (position[1] >= 0) && (position[1] < 512) && (position[2] >= 0) && (position[2] < 512)){
         return filled[position[0]][position[1]][position[2]];
     }
     return false;
@@ -20,7 +21,7 @@ chunk::~chunk(){}
 // k blue i red j green
 // ctrl x -> red facing me
 
-GLuint RenderFace(std::vector<GLint> position, GLboolean (&filled)[256][256][256]){
+static GLuint RenderFace(const std::vector<GLint> position, const GLboolean (&filled)[512][512][512]){
     // 1 -> back face: 2 -> front face: 3 -> left face: 4 -> right face: 5 -> top face: 6 -> bottom face
     GLuint mask = 0;
     std::vector<GLint> tmp = position;
@@ -60,49 +61,49 @@ GLuint RenderFace(std::vector<GLint> position, GLboolean (&filled)[256][256][256
     return mask;
 }
 
-void RenderSlab(int j, int side, GLboolean (&filled)[256][256][256], std::vector<std::tuple<std::vector<GLfloat>, std::vector<GLuint>, GLuint, GLuint>>& Data){
+static std::mutex s_mutex;
+
+static void RenderSlab(int j, GLfloat side, const GLboolean (&filled)[512][512][512], std::vector<int> BIndex, std::vector<GLfloat>* Rendervert, std::vector<GLuint>* Index, GLuint* count, GLuint* I){
     std::vector<GLfloat> slabrendervert;
     std::vector<GLuint> slabindices;
     GLuint idx = 0, cnt = 0;
-    for(int i = 0; i < 256; i++){
-        for(int k = 0; k < 256; k++){
+    for(int i = BIndex[1]; i <= BIndex[0]; i++){
+        for(int k = BIndex[5]; k <= BIndex[4]; k++){
             // filled[i][j][k] = 1;
             if(!filled[i][j][k]) continue;
             glm::vec3 ofs = {i * side, j * side, k * side};
             std::vector<GLint> Idx = {i, j, k};
             GLuint mask = RenderFace(Idx, filled);
-            block* bl = new block(side, ofs, true); bl->Render(mask);
-            std::vector<GLfloat> blockrendervert = bl->rendervert;
-            std::vector<GLuint> blockindices = bl->indices;
+            block bl = block(side, ofs, true); bl.Render(mask);
+            std::vector<GLfloat> blockrendervert = bl.rendervert;
+            std::vector<GLuint> blockindices = bl.indices;
             for(auto x : blockrendervert) slabrendervert.push_back(x);
             for(auto x : blockindices) slabindices.push_back(idx + x);
-            delete bl;
             idx += 24, cnt++;
         }
     }
-    Data[j] = {slabrendervert, slabindices, cnt, idx};
+    std::lock_guard<std::mutex> lock(s_mutex);
+    for(int i = 0; i < slabrendervert.size(); i++) Rendervert->push_back(slabrendervert[i]);
+    for(int i = 0; i < slabindices.size(); i++) Index->push_back(slabindices[i] + *I);
+    *count += cnt; *I += idx;
 }
 
+void chunk::SetBindex(){
+    for(int i = 0; i < 512; i++){
+        for(int j = 0; j < 512; j++){
+            for(int k = 0; k < 512; k++){
+                if(!filled[i][j][k]) continue;
+                BIndex[0] = max(BIndex[0], i); BIndex[2] = max(BIndex[2], j); BIndex[4] = max(BIndex[4], k);
+                BIndex[1] = min(BIndex[1], i); BIndex[3] = min(BIndex[3], j); BIndex[5] = min(BIndex[5], k);
+            }
+        }
+    }
+}
 
 void chunk::Render(){
     if(!displaychunk) return;
-
-    std::vector<std::thread> Threads;
-    std::vector<std::tuple<std::vector<GLfloat>, std::vector<GLuint>, GLuint, GLuint>> Data(256);
-
-
-    for(int j = 0; j < 256; j++){
-        std::thread newthread(RenderSlab, j, side, std::ref(filled), std::ref(Data));
-        Threads.push_back(std::move(newthread));
-    }
-
-    for(int i = 0; i < 256; i++) Threads[i].join();
-
-    GLuint _I = 0;
-    for(int i = 0; i < 256; i++){
-        auto &[arr1, arr2, c, I] = Data[i];
-        for(int j = 0; j < arr1.size(); j++) rendervert.push_back(arr1[j]);
-        for(int j = 0; j < arr2.size(); j++) indices.push_back(arr2[j] + _I);
-        count += c; _I += I;
-    }
+    std::vector<std::future<void>> m_Futures;
+    GLuint I = 0;
+    SetBindex();
+    for(int j = BIndex[3]; j <= BIndex[2]; j++) m_Futures.push_back(std::async(std::launch::async, RenderSlab, j, side, std::cref(filled), BIndex, &rendervert, &indices, &count, &I));
 }
