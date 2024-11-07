@@ -86,6 +86,12 @@ This method ensures efficient and accurate voxelization by traversing the model 
 <a href="https://github.com/Talkative-Banana/3D-Mesh-Voxelizer"> <img src="logo/Bunny32.png" alt="result" width="320" height="320"> </a>
 <a href="https://github.com/Talkative-Banana/3D-Mesh-Voxelizer"> <img src="logo/Buddha512.png" alt="result" width="320" height="320"> </a>
 
+
+
+https://github.com/user-attachments/assets/3bf2c09d-51c6-45a5-a302-c9c64d924a4a
+
+
+
 <!-- GETTING-STARTED -->
 ## Getting Started
 To get a local copy up and running follow these simple steps.
