@@ -107,6 +107,7 @@ To get a local copy up and running follow these simple steps.
 * Clone the repo
   ```bash
   git clone https://github.com/Talkative-Banana/3D-Mesh-Voxelizer.git
+  sudo apt-get install libgl1-mesa-dev freeglut3-dev libglfw3 libglfw3-dev libglm-dev libglew-dev
   chmmod +x build.sh # (For linux users)
   ulimit -s unlimited
   ./build.sh
